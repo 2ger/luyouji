@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js" ></script>
+        <script type="text/javascript" src="../js/common.js" ></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">法律声明与隐私政策</h1>
+		</header>
+		<div class="mui-content">
+			
+			<div class="mui-content-padded" id="license_span"> 
+			</div>
+		</div>
+		
+	</body>
+	
+	<script>
+	    
+	    var license_result = "";
+		 mui.plusReady(function() {
+		 	//获取协议注册条款内容
+				var url = request_url+"get_Info"+"&v=0000300002"; 
+				mui.getJSON(url, function(rsp){
+					console.log(JSON.stringify(rsp));
+					license_result = rsp;
+					
+					var license_span = document.getElementById("license_span");
+					console.log(license_result.result);
+					license_span.innerHTML = textdecode1(license_result.result);
+				});
+				
+		 });
+		 
+		 
+	</script>
+</html>

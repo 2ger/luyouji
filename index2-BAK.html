@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/iconfont.css">
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ylg8yBCSUPFnuu82sDnIbZ5H"></script>
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=726ZqpsoTe2765d1KaY5kqkd"></script>-->
+		<script type="text/javascript" src="js/request_url.js"></script>
+	
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+			}
+			body{ position:relative ;}
+			.zzc{
+				opacity: 0.4;
+				background: #000;
+				width: 100%;
+				height: 100%;
+				z-index: 9999;
+				position: absolute;
+				text-align: center;
+				display: none;
+			}
+			.ad{
+				opacity: 1;
+				background: transparent;
+				width: 100%;
+				height: 100%;
+				z-index: 9999;
+				position: absolute;
+				text-align: center;
+				display: none;
+			}
+			.ad .mui-icon-close{		
+				opacity: 1;
+				z-index: 9999;							
+				font-size: 44px;							
+				color: #fff;
+			}
+			.ad img{						
+				opacity: 1;
+				z-index: 9999;	
+				max-width: 95%;	
+				max-height: 85%;
+				margin-top: 4%;																		
+			}
+			
+			.payorder{
+				opacity: 1;
+				background: transparent;
+				width: 100%;
+				height: 100%;
+				z-index: 9999;
+				position: absolute;
+				text-align: center;
+				display: none;
+				/*background: #F5F5F5;
+				border-radius: 10px;
+				border: 1px solid #ccc;*/
+			}
+			.payorder .mui-icon-close{		
+				opacity: 1;
+				z-index: 9999;							
+				font-size: 44px;							
+				color: #fff;
+			}
+			.payorder img{						
+				opacity: 1;
+				z-index: 9999;	
+				max-width: 95%;	
+				max-height: 85%;
+				margin-top: 4%;																		
+			}
+			
+			.mui-bar-tab .mui-tab-item {
+				color: #555555;
+				vertical-align: bottom;
+				padding-bottom: 10px;
+			}			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #555555;
+			}
+			#map {
+				text-align: center;
+				position: absolute;
+				top: 0px;
+				bottom: 100px;
+				width: 100%;				
+			}			
+			.mui-bar-tab .mui-tab-item .mui-icon ~ .mui-tab-label {
+				font-size: 15px;
+			}			
+			#map_result_div {
+				position: absolute;
+				width: 100%;
+				text-align: center;
+				bottom: 65%;
+				vertical-align: middle;			
+			} 			
+			#map_result {
+				width: auto;
+				display: inline-block;
+				height: 11%;
+				max-width: 80%;
+				line-height: 25px;
+				text-align: center;
+				margin: 0 auto;
+				top: 35%;
+				left: 10%;
+				border: 1px solid #ccc;
+				padding: 5px;
+				background: #FFFFFF;
+				vertical-align: middle;
+				border-radius: 5px;
+				color: #FF0066;
+				font-size: 12px;
+			}			
+			#map_result_img {
+				width: 80%;
+				height: 8%;
+				text-align: center;
+				top: 34.1%;
+				left: 10%;
+				padding: 8px;
+				vertical-align: middle;
+				border-radius: 5px;
+				color: #666;
+				font-size: 12px;
+			}
+			#order_div_1,#order_div_2,#order_div_3,#order_div_4,#order_div_5{ display: none;}
+			#order_div_2,#order_div_3{padding-top: 6px;}
+			#order_div_2>div{width:100%; text-align: center; line-height: 23px;}
+			#order_div_2>div>botton,#order_div_3>div>botton{ line-height: 40px; padding: 6px 10px; background: #EBE9EA; color: #918F90; }
+			#order_div_3>div>img{ width: 28px;margin-left: 15px;}
+			#order_div_3>div{width:100%; text-align: center; line-height: 46px;}
+			#order_div_4>div,#order_div_5>div{width:100%; text-align: center; line-height: 90px; }
+			#order_div_5>div>botton{ line-height: 40px; padding: 6px 10px; background: #FF0066; color: #fff;border-radius: 5px; }
+		</style>
+	</head>
+
+	<body>
+		<div id="zzc" class="zzc"> </div>
+		<div id="ad" class="ad"> 			
+			<img id="ad_img"><br>	
+			<span class="mui-icon mui-icon-close" id="mui-close"></span>
+		</div>
+		<div id="payorder" class="payorder">
+			<div class="mui-card">
+				<div class=" mui-content-padded">
+			您有未支付的订单！
+			<br />
+			<img id="pay_img"><br>
+			金额: <span id="order_money_txt"> </span> 元
+			<input type="hidden" name="order_money" id='order_money' />
+			<br /><a onclick="pay_order()" class="mui-btn  mui-btn-positive mui-btn-block">前去支付</a>
+			<!--<span class="mui-icon mui-icon-close" id="mui-close"></span>-->
+			</div>
+			</div>
+		</div>
+		
+		<header class="mui-bar mui-bar-nav ">
+			<a id="person_center" class="mui-icon mui-pull-left my-bar-nav">
+				<img src="img/index_left_fresh_manual.png" />
+				<span>个人中心</span>
+			</a>
+			<a id="pop_adv" class="mui-icon mui-pull-right my-bar-nav">
+				<img src="img/icon_lw_blue.png" />
+				<span>我的订单</span>
+			</a>
+			<!--<h1 class="mui-title">
+				<div>
+				   <span data-val="0" class="curr">送货员</span>
+				   <span data-val="1" >小车</span>
+				   <span data-val="2" >货车</span>
+			   </div>
+			</h1>-->
+		</header>
+
+<style>
+	header .mui-title>div {
+    width: 180px;
+}
+</style>
+		<div class="mui-content">
+			
+			<div class=" mui-center" style="text-align:center;margin:10px;margin-top:30px">
+	
+	<a href=""><span class="mui-icon mui-icon-location"></span> 常用发货</a> | 
+	<a href=""><span class="mui-icon mui-icon-location"></span> 常用收货</a>
+
+			</div>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_1" style="display: block;"> 		
+				<div class="address">
+					<input id="start_address" readonly="readonly" class="start_address" placeholder="选择发货地点" />
+					<input id="end_address" readonly="readonly" class="end_address" placeholder="选择收货地点" />
+				</div>
+				<div id="fastdate_car" class="araw">
+					<img src="img/araw.png">
+						<!--<div class="mui-btn mui-btn-negative" style="     margin: 20px 0 0 5px;
+    height: 55px;
+    line-height: 44px;">呼叫送货</div>-->
+				</div>
+				<a id="date_car"></a>
+				<!--<a class="mui-tab-item" id="date_car">
+					<span class="mui-icon iconfont  icon-yuyue"></span>
+					<span class="mui-tab-label">预约用车</span>
+				</a>
+				<a class="mui-tab-item" id="fastdate_car">
+					<span class="mui-icon iconfont icon-lijichuzu"></span>
+					<span class="mui-tab-label">立即叫车</span>
+				</a>-->
+			</nav>
+			<!--<div class="mui-card">
+				<table border="0" width="100%">
+					<tr id="tr_carname">
+					</tr>
+					<tr id="tr_carimg">
+
+					</tr>
+					<tr>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>电动车主</label>
+								<input class="choose_taxi" name="choose_taxi" type="radio" checked value="0" >
+
+							</div>
+						</td>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>三轮车主</label>
+								<input class="choose_taxi"  name="choose_taxi" type="radio" value="1" >
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>小车主</label>
+								<input class="choose_taxi" name="choose_taxi" type="radio"  value="2" >
+
+							</div>
+						</td>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>货车主</label>
+								<input class="choose_taxi"  name="choose_taxi" type="radio" value="3" >
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>-->
+			
+			<div class="mui-center" style="text-align: center;padding: 10px;">
+				<!--<a href=""   class="mui-btn mui-btn-block mui-btn-positive" style="    font-size: 20px;
+    padding: 15px;">呼叫送货</a>
+    <img src="img/btn.png" width="150px"/>-->
+    <div>
+    	<a href="http://182.254.233.114/down_ser.aspx">注册成为送货车主 </a>
+    </div>
+				
+			</div>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_2">
+				<div>此次行程预计<span id="order_yj_fee"></span>元</div>
+				<div>正在为您调度服务车辆</div>
+				<div>
+					<botton id="cancel_order">取消订单</botton>
+				</div>
+			</nav>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_3">
+				<div><span id="coach_info">*****</span>正在前往<img align="absmiddle" id="call_coach" src="img/telephone_icon@2x_09.png"></div>			
+				<div>
+					<botton id="cancel_order_1">取消订单</botton>
+				</div>
+			</nav>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_4">
+				<div>正在送货</div>				
+				<div>已行驶<span id="al_away">0</span>公里，<span id="al_fee">0</span>元</div>				
+			</nav>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_5">
+				<div>您的货物已到达目的地，共计<span id="order_fee">0</span>元</div>	
+				<div>等待司机确认</div>
+				<!--<div>
+					<botton id="down_car">确认下车</botton>
+				</div>-->
+			</nav>
+		</div>
+		
+	
+<div class="mui-card" style="    margin-top: 20px;
+   ">
+<div id="slider" class="mui-slider">
+	<div class="mui-slider-group mui-slider-loop">
+		<div class="mui-slider-item mui-slider-item-duplicate">
+			<a href="#"><img src="img/ad1.jpg"></a>
+		</div>
+		<div class="mui-slider-item">
+			<a href="#"><img src="img/ad2.jpg"></a>
+		</div>
+		<div class="mui-slider-item">
+			<a href="#"><img src="img/ad1.jpg"></a>
+		</div>
+
+	</div>
+	<div class="mui-slider-indicator">
+		<div class="mui-indicator mui-active"></div>
+		<div class="mui-indicator"></div>
+	</div>
+</div>
+</div>
+
+<div id="back_current_position" style="position: absolute;bottom: 100px;">
+
+		</div>
+		
+	</body>
+</html>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>

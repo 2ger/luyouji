@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../js/request_url.js" ></script>
+    <script type="text/javascript" src="../js/common.js" ></script>
+    <style>
+    	*{
+    		font-size: 16px;
+    	}
+    	.mui-content>.mui-table-view:first-child{margin-top: 0;}
+    	
+    </style>
+</head>
+<body>
+	 <header class="mui-bar mui-bar-nav">
+		<h1 id="mui-title" class="mui-title">时间表</h1><!--← -->
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		<!--<a id="wf" class=" mui-pull-right" style=" margin-top: 12px; font-size: 14px;">往返</a>-->
+	 </header>
+	<div class="mui-content">
+		 <ul class="mui-table-view"  id="freeride_content">											
+			
+		 </ul>
+		
+	</div>
+</body>
+ <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	var response;
+      	/*初始化控件对象，获得id*/
+//    	//用户信息
+       var user_name = document.getElementById("user_name");
+ 
+      	mui.plusReady(function() {
+      		 //调用提交处理函数
+      		get_orderdetail();
+//    		document.getElementById("wf").addEventListener("tap", function(i) {
+//				cdata();
+//			});
+//			document.getElementById("mui-title").addEventListener("tap", function(i) {
+//				cdata();
+//			});
+      	});
+      	
+      	//获取订单详情
+      	function get_orderdetail()
+      	{       var freeride_content = document.getElementById("freeride_content");
+      		    var rental_pk = plus.webview.currentWebview().param;      		   
+      			var url = request_url+"get_rental_info"; 
+      			mui.ajax(url,{
+				data:{     
+						   "rental_pk": rental_pk 
+				     },
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为5秒；
+				success:function(rsp){
+					response=rsp;
+					cdata(); 
+								
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("\n失败$$$$$"+xhr.status+"$$$"+type+"$$$"+errorThrown);
+				}
+			});
+      	}
+      	function cdata()
+      	{
+      		
+      			
+				var time1=textdecode2(response.Table[0].rental_time1).split(';');
+				
+				var str_time='<li class="mui-table-view-cell mui-media  mui-bar-nav" style=" border:none; text-align:center; font-size:17px; background:#F7F7F7;">'+ response.Table[0].rental_start_address +" → "+ response.Table[0].rental_end_address +'</li>';
+				for(var i=0;i<time1.length;i++)
+				{
+					if(time1[i]!="")
+						str_time+='<li class="mui-table-view-cell mui-media">'+ time1[i] +'</li>';
+				}
+				
+				str_time+='<li class="mui-table-view-cell mui-media  mui-bar-nav" style=" border:none; text-align:center; font-size:17px;background:#F7F7F7;">'+ response.Table[0].rental_end_address +" → "+ response.Table[0].rental_start_address +'</li>';      			      		
+				time1=textdecode2(response.Table[0].rental_time2).split(';');						
+				for(var i=0;i<time1.length;i++)
+				{
+					if(time1[i]!="")
+						str_time+='<li class="mui-table-view-cell mui-media">'+ time1[i] +'</li>';
+				}
+				freeride_content.innerHTML =str_time;
+      			
+      		
+      	}
+ </script>
+</html>

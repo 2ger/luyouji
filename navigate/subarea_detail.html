@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../js/request_url.js" ></script>
+    <script type="text/javascript" src="../js/common.js" ></script>
+    <style>
+    	*{
+    		font-size: 12px;
+    	}
+    	.mui-content{
+    		margin-top:12px ;
+    		padding: 10px 10px;
+    	}
+    	.head_img{width:40%;}
+    	.head_img img{
+    		max-width: 90%;
+    		max-height: 200px;
+    	}
+    	.head_img,.head_info{float: left;}
+    	.head_info{width:60%;}
+    	.head_info span{ display: block; clear: both; margin-top:10px ;}
+    	.head_content{clear: both; }
+    </style>
+</head>
+<body>
+	 <header class="mui-bar mui-bar-nav">
+		<h1 id="mui-title" class="mui-title">分店详情</h1>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+	</header>
+	<div class="mui-content">
+		 <div class="head">
+		 	<div class="head_img">
+		 		<img id="driving_pic" onerror="this.src='../img/icon_home_01.png';">
+		 	</div>
+		 	<div class="head_info">
+			 	<h4 id="driving_name">
+			 		 	
+			 	</h4>
+			 	<span id="driving_address">
+			 		 	
+			 	</span>
+			 	<span id="driving_tel">
+			 		 	
+			 	</span>
+		 	</div>
+		 	<div id="head_content" class="head_content">
+		 	
+		 	</div>
+		 </div>
+		
+	</div>
+</body>
+ <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	/*初始化控件对象，获得id*/
+//    	//用户信息
+       var user_name = document.getElementById("user_name");
+ 
+      	mui.plusReady(function() {
+      		 //调用提交处理函数
+      		 get_orderdetail();
+      		 
+      	});
+      	
+      	//获取订单详情
+      	function get_orderdetail()
+      	{       
+      		    var driving_pk = plus.webview.currentWebview().param;      		   
+      			var url = request_url+"get_Driving_info"; 
+      			mui.ajax(url,{
+				data:{     
+						   "driving_pk": driving_pk 
+				     },
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为5秒；
+				success:function(response){
+					console.log(JSON.stringify(response));
+					document.getElementById("mui-title").innerHTML = textdecode1(response.Table[0].driving_name);
+					document.getElementById("driving_name").innerHTML = textdecode1(response.Table[0].driving_name);
+					document.getElementById("driving_address").innerHTML ="地址："+response.Table[0].p+response.Table[0].c+response.Table[0].q+ response.Table[0].driving_address;
+					document.getElementById("driving_tel").innerHTML = "联系电话："+textdecode1(response.Table[0].driving_tel);
+					document.getElementById("driving_pic").src= request_img_url+response.Table[0].driving_pic;
+					document.getElementById("head_content").innerHTML = textdecode1(response.Table[0].driving_info); 					
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("\n失败$$$$$"+xhr.status+"$$$"+type+"$$$"+errorThrown);
+				}
+			});
+      	}
+ </script>
+</html>

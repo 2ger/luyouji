@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!--<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />-->
+		<style>
+		
+		.oa-contact-cell.mui-table .mui-table-cell {
+			padding: 11px 0;
+			vertical-align: middle;
+			
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+				
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				
+			}
+			div h4 { line-height: 20px; }
+			div h4 span{ margin:  0 10px;}
+			span img{ vertical-align: bottom;}
+			.btn_yuyue{ }
+			.btn_yuyue button{ margin: 24px auto;}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			#cityResult3
+			{
+				position: fixed; 
+				top: 43px; 
+				background-color: #EC971F; 
+				color:#fff;
+				border-radius: 3px;  
+				width: 100%; 
+				height: 28px; 
+				line-height: 28px;
+				text-align: center;
+				font-size: 12px;
+				z-index: 9999;
+			}
+	.mui-clearfix p
+	{
+		overflow: hidden;white-space:nowrap;text-overflow:ellipsis;
+	}
+	#nodata{
+	margin-top: 35px;
+	text-align: center;
+	background-color: transparent;
+	border:none;
+	color: #ccc;
+	font-size:12px;
+	}
+		</style>
+	</head>
+
+	<body >
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">门店</h1>
+			<a id="showCityPickerButton" class="mui-icon mui-icon-search mui-pull-right" style="color: #999;"></a>
+		</header>
+		<div id="cityResult3" style="display: none;"></div>
+		<div class="mui-content" >
+			
+			<div id="subarea" >
+				<ul id="subarea_content" class="mui-table-view mui-table-view-striped mui-table-view-condensed">											
+				</ul>
+				<span id="nodata">暂无门店信息!</span>
+			</div>
+							
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/request_url.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		var provice_sel = "";
+		var city_sel = "";
+		var area_sel = "";
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPickerButton');					
+					var cityResult3 = doc.getElementById('cityResult3');					
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							cityResult3.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;;
+							cityResult3.style.display="block";
+							subarea.style.marginTop="25px";
+							provice_sel=(items[0] || {}).value;
+							city_sel=(items[1] || {}).value;
+							area_sel=(items[2] || {}).value;
+							init_info((items[2] || {}).value);
+						});
+					}, false);
+					init_info("");
+				});
+				function init_info(v) {
+					var subarea_content = doc.getElementById('subarea_content');
+					subarea_content.innerHTML="";
+					var url = request_url + "get_Driving" + "&v=" + v;
+					mui.getJSON(url, function(rsp) {
+						console.log(JSON.stringify(rsp));
+						str_subarea = rsp;
+						var strlen = str_subarea.Table.length;
+						var str_subarea="";	
+						for (var j = 0; j < strlen; j++) {
+							str_subarea+="<li name=\"child_div\" class=\"mui-table-view-cell\"><span style=\"display:none\">" + rsp.Table[j].driving_pk + "</span>"+
+								"<div class=\"oa-contact-cell mui-table  mui-pull-left\">"+
+									"<div class=\"oa-contact-avatar mui-table-cell\" id=\"train_img\">"+
+										"<img onerror=\"this.src='../img/icon_home_01.png';\" src=\""+ request_img_url+ rsp.Table[j].driving_pic+"\"  width=\"60px\" height=\"60px\"/>"+
+									"</div>"+
+									"<div class=\"oa-contact-content mui-table-cell\">"+
+										"<div class=\"mui-clearfix\">"+
+											"<h4 >"+ rsp.Table[j].driving_name +"<span></span></h4>"+											
+											"<p>"+ rsp.Table[j].driving_address +"</p>"+
+											"<p >"+ rsp.Table[j].driving_tel +"</p>"+
+										"</div>"+									
+									"</div>"+
+								"</div>"+				
+							"</li>";
+						}
+						
+						subarea_content.innerHTML=str_subarea;
+						if(str_subarea=="") 
+						{
+							subarea_content.style.display="none";
+							document.getElementById("nodata").style.display="block";
+						}
+						else {
+							subarea_content.style.display="block";
+							document.getElementById("nodata").style.display="none";
+						}
+						view_subareadetail();
+					});
+				}
+				function view_subareadetail() {
+					// var order_detail_divName = document.getElementsByName("order_detail_div");
+					var subarea_divName = document.getElementsByName("child_div");
+					for (var i = 0; i < subarea_divName.length; i++) {
+						subarea_divName[i].addEventListener("tap", function(i) {
+							driving_pk = this.firstChild.textContent;
+							mui.openWindow({
+								url: "subarea_detail.html",
+								extras: {
+									param: driving_pk
+								}
+							});
+						})
+					}
+				}
+			})(mui, document);
+		</script>
+	</body>
+
+</html>

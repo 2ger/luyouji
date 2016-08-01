@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<style>
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {}
+			
+			div h4 {
+				line-height: 20px;
+			}
+			
+			div h4 span {
+				margin: 0 10px;
+			}
+			
+			span img {
+				vertical-align: bottom;
+			}
+			
+			.btn_yuyue {}
+			
+			.btn_yuyue button {
+				margin: 24px auto;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">当前司机</h1>
+		</header>
+		<div class="mui-content">
+
+			<div>
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+					<li class="mui-table-view-cell">
+						<div class="oa-contact-cell mui-table mui-col-xs-10 mui-pull-left  user_info">
+							<div class="oa-contact-avatar mui-table-cell" id="train_img">
+								<img src="../img/u1.jpg" width="60px" height="60px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4>叶文洁<span></span></h4>
+									<p>男 18909258800</p>
+								</div>
+
+							</div>
+						</div>
+						<div class="oa-contact-cell mui-table mui-col-xs-1 mui-pull-left btn_yuyue">
+							<button type="button" class="mui-btn mui-btn-success">预约</button>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="oa-contact-cell mui-table mui-col-xs-10 mui-pull-left user_info">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="../img/u2.jpg" width="60px" height="60px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4 class="">刘涛<span><img src="../img/scorestart.png"/> 
+									<img src="../img/scorestart.png"/></span></h4>
+									<p>男 18909258800</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="oa-contact-cell mui-table mui-col-xs-1 mui-pull-left btn_yuyue">
+							<button type="button" class="mui-btn mui-btn-success">预约</button>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="oa-contact-cell mui-table mui-col-xs-10 mui-pull-left  user_info">
+							<div class="oa-contact-avatar mui-table-cell" id="train_img">
+								<img src="../img/u3.jpg" width="60px" height="60px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4>张雪<span></span></h4>
+									<p>女 18909258800</p>
+								</div>
+
+							</div>
+						</div>
+						<div class="oa-contact-cell mui-table mui-col-xs-1 mui-pull-left btn_yuyue">
+							<button type="button" class="mui-btn mui-btn-warning">忙碌</button>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="oa-contact-cell mui-table mui-col-xs-10 mui-pull-left user_info">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="../img/u4.jpg" width="60px" height="60px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4 class="">刘子晴<span><img src="../img/scorestart.png"/> 
+									<img src="../img/scorestart.png"/></span></h4>
+									<p>女 18909258800</p>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="oa-contact-cell mui-table mui-col-xs-1 mui-pull-left btn_yuyue">
+							<button type="button" class="mui-btn mui-btn-danger">休息</button>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		mui.init();
+		var order_btn = document.getElementById("order_btn");
+		order_btn.addEventListener("tap", function() {
+			mui.openWindow({
+				url: "../yuyue.html"
+			})
+		})
+	</script>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js" ></script>
+        <script type="text/javascript" src="../js/common.js" ></script>
+        <style type="text/css">
+        	* {
+				font-size: 12px;
+			}
+			.mui-content > .mui-card:first-child{margin:30px 0 0 0;line-height: 30px; font-size: 20px;}
+			.mui-content > .mui-card{ margin:20px 0 0 0; border-radius: 0; padding: 15px; border:solid 1px #D6D6D6; border-left: none; border-right: none;}
+        </style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">客服与帮助</h1>
+		</header>
+		<div class="mui-content">
+			<div  class="mui-card" id="tab_call" >
+				<img align="absmiddle" src="../img/telephone_icon@2x_09.png" width="30">&nbsp;&nbsp;<a href="tel:07728819299">0772-8819299</a>		
+			</div>
+			<div  class="mui-card"  id="par_content">
+					正在加载...
+			</div>
+		</div>
+		
+	</body>
+    <script>
+       
+       var par_content =  document.getElementById("par_content");
+    	mui.plusReady(function(){
+  		 	var url = request_url+"get_Info"+"&v=0000300001";    
+			mui.getJSON(url, function(rsp){
+				console.log(JSON.stringify(rsp));
+				
+				par_content.innerHTML = textdecode1(rsp.result); 
+			});
+			document.getElementById("tab_call").addEventListener("tap", function() {
+				plus.device.dial("07728819299", true);
+			})
+  	});
+    </script>
+</html>

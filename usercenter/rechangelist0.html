@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js" ></script>
+		<script type="text/javascript" src="../js/jquery-1.7.2.js" ></script>
+		<style>
+
+			.order_list_view{
+				margin: 8px ;
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">充值记录</h1>
+		</header>
+		<div class="mui-content" id="order_content_div">
+
+
+		</div>
+		
+	</body>
+    <script type="text/javascript" charset="utf-8"> 
+    
+  
+        var user_pk = "";
+    	mui.init();
+ 	
+    mui.plusReady(function() {
+    	
+    	user_pk = plus.storage.getItem('user_pk');
+    	init();
+    })
+    
+    //初始化界面参数
+    function init()
+    {
+    	
+    	var url     = request_url+"get_rechange";
+    	  mui.ajax(url,{
+				data:{     
+					    "user_pk"   :user_pk
+				     },
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为10秒；
+				success:function(response){
+						console.log(JSON.stringify(response));
+                        console.log("response.length==="+response.Table.length);
+                        if(response.Table.length !=0)
+                        {
+                        	dyn_create_ui(response);
+                        	
+                        }
+                        
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("\n失败$$$$$"+xhr.status+"$$$"+type+"$$$"+errorThrown);
+				}
+			});
+    }
+    //动态绘制页面数据
+    var order_content_div = document.getElementById("order_content_div");
+
+
+    function dyn_create_ui(result)
+    {  
+
+        for(var i=0;i<result.Table.length;i++)
+        {            	
+        	 var rechange_pk=result.Table[i].transaction_pk;   	 
+        	 var strDate  = result.Table[i].create_time;        	
+        	
+        	       	      
+        	 var str_username="金额：<font color='red'>￥" + result.Table[i].amount+"</font>";
+        	 var  str_rem = result.Table[i].rem;
+			 
+        	  strTemp =  '<div  name="order_detail_div"  class="mui-table-view-cell mui-card order_list_view">'
+        	               +'<div name="child_div">'
+        	               +'<span style="display:none">'+rechange_pk+'</span>'
+						   +'<p style="text-align:right;"><span class="mui-badge mui-pull-left"><font color="green">已完成</font></span>' +strDate+'</p>'
+						   +str_username
+						   +'<a style="color: #000000;float:right; font-size:14px;"><span>'+str_rem+'</span></a>'
+						   
+						   +'</div>'
+//						   +'<div style="text-align: right; border-top: 1px solid #CCCCCC; padding: 10px 0 0 0;">'
+//						   +'<span class="mui-badge mui-badge-warning mui-pull-left" style="margin:8px 0; line-height:15px;" id="zt">'+strPayState+'</span>'	
+//						   +strshow		
+//						   +'</div>'
+				           +'</div>'
+			 order_content_div.innerHTML +=strTemp; 
+        }
+	}
+        
+	
+    </script>
+</html>

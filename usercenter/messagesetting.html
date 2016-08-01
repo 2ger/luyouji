@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+	    <script src="../js/mui.min.js"></script>
+	    <script type="text/javascript" src="../js/request_url.js" ></script>
+	    <script type="text/javascript" src="../js/common.js" ></script>
+	    <style type="text/css">
+	    	.content_li_style
+	    	{
+	    		margin-left: 10px;
+	    		margin-top: 10px;
+	    	}
+	    	* {
+				font-size: 12px;
+			}
+	    </style>
+	</head>
+ 
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 215px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			#slider
+			{
+				margin-top: 50px;
+			}
+		</style>
+		<div class="mui-content">
+			<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">消息中心</h1>
+		</header>
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#all">
+						全部
+					</a>
+					<a class="mui-control-item" href="#train">
+						司机
+					</a>
+					
+					<a class="mui-control-item" href="#trainssystem">
+						系统
+					</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="all" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view mui-grid-view">
+									<li class="content_li_style" > 
+										<div style="display:block;word-break: break-all;word-wrap: break-word;">
+											<p>
+												<span style="color:orange" id="all_message"></span>
+												
+											</p>
+										</div>
+									</li>									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="train" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="trainssystem" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+		<script>
+		
+		    var all_message = document.getElementById("all_message");
+		    var coach_message = "";
+		    var system_message = "";
+			mui.init({
+				swipeBack: false
+			});
+			
+			mui.plusReady(function(){
+				
+				var url = request_url+"get_message";
+        		var user_pk = plus.storage.getItem('user_pk');
+		        console.log("user_pk==="+user_pk);
+	        mui.ajax(url,{
+				data:{     
+					     "user_pk"   : user_pk
+				     },
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为10秒；
+				success:function(response){
+					read_message();
+				console.log(JSON.stringify(response));
+				var meslen = response.Table.length;
+				//循环获取消息中心数据
+				if(0 != meslen)
+				{     
+					   for(var i =0; i< meslen;i++)
+					   {
+					   	   var message_type = response.Table[i].message_type;
+					      console.log("message_type==="+message_type);
+						if(message_type == "1")  //系统
+						{
+							system_message += (textdecode1("[系统]"+ response.Table[i].message_content)+"<br>");
+							console.log("sytem_message==="+system_message);
+						}
+						else if(message_type == "2")  //司机
+						{
+							coach_message += (textdecode1("[司机]"+response.Table[i].message_content)+"<br>");
+							console.log("coach_message==="+coach_message);
+						}
+						 all_message.innerHTML = (system_message+coach_message);
+					   }
+					 
+						
+							mui('.mui-scroll-wrapper').scroll({
+												indicators: true //是否显示滚动条
+											});
+				var html2 = '<ul class="mui-table-view mui-grid-view"><li class="content_li_style">'
+				     +'<div style="display:block;word-break: break-all;word-wrap: break-word;"><p><span style="color:orange">'+coach_message+'</span></p></div>'
+				     +'</li></ul>';
+				var html3 = '<ul class="mui-table-view mui-grid-view"><li class="content_li_style">'
+				     +'<div style="display:block;word-break: break-all;word-wrap: break-word;"><p><span style="color:orange">'+system_message+'</span></p></div>'
+				     +'</li></ul>';
+					var item2 = document.getElementById('train');
+					var item3 = document.getElementById('trainssystem');
+					document.getElementById('slider').addEventListener('slide', function(e) {
+						if (e.detail.slideNumber === 1) {
+							if (item2.querySelector('.mui-loading')) {
+								setTimeout(function() {
+									item2.querySelector('.mui-scroll').innerHTML = html2;
+								}, 500);
+							}
+						} else if (e.detail.slideNumber === 2) {
+							if (item3.querySelector('.mui-loading')) {
+								setTimeout(function() {
+									item3.querySelector('.mui-scroll').innerHTML = html3;
+								}, 500);
+							}
+						}
+					});
+
+					}
+				
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("\n失败$$$$$"+xhr.status+"$$$"+type+"$$$"+errorThrown);
+				}
+			});
+			
+	});
+	function read_message()
+	{
+		var url = request_url + "read_message";
+		var user_pk = plus.storage.getItem('user_pk');			
+		mui.ajax(url, { 
+			data: {
+				"user_pk": user_pk
+			},
+			dataType: 'json', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			timeout: 5000, //超时时间设置为10秒；
+			success: function(response) {					
+			},
+			error: function(xhr, type, errorThrown) {
+				//异常处理；
+				console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+			}
+		});
+	}
+		</script>
+
+	</body>
+
+</html>

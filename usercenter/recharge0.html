@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../js/request_url.js"></script>
+		<style>
+			.title{
+				line-height: 50px;
+				color:#F0AD4E;
+				border-bottom:solid 3px #F0AD4E;
+				width: 100px;
+				padding: 0 10px;
+				z-index: 9999;
+				position: relative;
+			}
+			.inline{
+				border-bottom:solid 1px #ccc ;
+				margin-top: -1px;
+				z-index: 0;
+			}
+			.car1{margin: 8px 0px;}
+			.car2{margin: 8px 8px;}
+			.car3{margin: 8px 0;}
+			.car1,.car2,.car3{
+				height: 50px;
+				width: 91px;
+				border: solid 1px #ccc;
+				border-radius: 5px;
+				line-height: 30px;
+				text-align: center;
+				float: left;				
+			}
+			.car1 i,.car2 i,.car3 i{
+				font-style:normal;
+				font-size: 12px;
+				display: block;
+				line-height: 10px;
+				color: #ACACB4;
+			}
+			.curr{
+				color: #FF0000;	
+				border-color: #FF0000;	
+			}
+			.curr i{
+				color: #FF0000;	
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">充值</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		<a href="rechangelist.html" class=" mui-pull-right" style="color:#333; font-size: 14px; padding: 12px 0 12px 12px;">充值记录</a>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 0;">
+				<p style="margin-bottom: 0; color:#333;text-align: center; margin-top: 10px;line-height: 40px; background: #fff;">余额 <label id="rechange_label" style="font-size:20px;color: red;">￥0</label></p>
+				<div style=" margin-bottom: 0; background: #fff;width: 100%;color:#333; ">
+					<div style="font-size: 13px; line-height: 40px; margin: 0 15px; border-bottom: dashed 1px #999;background: #fff;">行程预估费用（已占用）<span id="yg_fee" style="color:red; float: right;">￥0</span></div>
+				</div>
+				 <div style="background: #fff;width: 100%; color:#333;">
+					<div style="font-size: 13px;line-height: 40px;margin: 0 15px;background: #fff;">可用余额<span id="ky_fee" style="color:red; float: right;">￥0</span></div>
+				</div>
+				
+				
+				 <div style="padding: 0 15px 15px;background: #fff;width: 100%; margin-top:10px ; overflow: hidden;">
+					<div class="title">   在线充值</div>
+					<div class="inline"></div>
+					<input id="choose_recharge_price"  type="text" style="width: 100%; margin: 10px 0; background:#F3F3F3; color:#333;" value="" placeholder="手动输入充值金额" />
+					<div id="recharge_div">
+					<div id="car1" class="car1">100元</div>
+					<div id="car2" class="car2">300元</div>
+					<div id="car3" class="car3">500元</div>
+					<div id="car4" class="car1">1000元</div>
+					<div id="car5" class="car2">3000元</div>
+					<div id="car6" class="car3">5000元</div></div>
+				 </div>
+				<div style="padding: 0 15px;width: 100%; margin-top:30px ;">
+					<button id="chingzhi-btn" class="mui-btn mui-btn-block mui-btn-danger" style="height:50px; font-size: 18px;">充 值</button>	
+				</div>
+				
+			</div>
+			
+		</div>
+	</body>
+
+	<script type="text/javascript" charset="utf-8">
+	var user_pk;
+	var re_str;
+		mui.init();
+		mui.plusReady(function() {
+			user_pk=plus.storage.getItem('user_pk');			
+			var url = request_url + "get_user_info";
+			mui.ajax(url, {
+				data: {
+					"user_pk": user_pk				
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 5000, //超时时间设置为5秒；
+				success: function(response) {
+					console.log(JSON.stringify(response));
+					document.getElementById("rechange_label").innerHTML="￥" + (parseFloat(response.Table[0].student_money) || 0).toFixed(2);
+					document.getElementById("yg_fee").innerHTML="￥" + (parseFloat(response.Table[0].yg_fee) || 0).toFixed(2);
+					var ky_fee=(parseFloat(response.Table[0].student_money) || 0)-(parseFloat(response.Table[0].yg_fee) || 0);
+					document.getElementById("ky_fee").innerHTML="￥" + (ky_fee>0?ky_fee.toFixed(2):"0");
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+				}
+			});
+			
+			mui.ajax(request_url + "get_recharge", {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 5000, //超时时间设置为5秒；
+				success: function(response) {
+					re_str=response.result.split(';');
+					var recharge_str="";
+					for(var i=0;i<re_str.length;i++)
+					{
+						var str1=re_str[i].split('-');
+						if(str1.length==2)
+						{
+							recharge_str+='<div id="car'+(i+1) +'" fee="'+str1[0]+'"  class="car'+ ((i+1)>3?((i+1)-3):(i+1)) +'">'+str1[0]+'元<i>赠送:'+str1[1]+'元</i></div>';
+						}
+					}
+					document.getElementById("recharge_div").innerHTML=recharge_str;
+					document.getElementById("car1").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car1").getAttribute("fee");			
+						set_car(1);
+					});
+					document.getElementById("car2").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car2").getAttribute("fee");			
+						set_car(2);
+					});
+					document.getElementById("car3").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car3").getAttribute("fee");			
+						set_car(3);
+					});
+					document.getElementById("car4").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car4").getAttribute("fee");			
+						set_car(4);
+					});
+					document.getElementById("car5").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car5").getAttribute("fee");			
+						set_car(5);
+					});
+					document.getElementById("car6").addEventListener('tap', function() {
+						document.getElementById("choose_recharge_price").value=document.getElementById("car6").getAttribute("fee");		
+						set_car(6);
+					});
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+				}
+			});
+			document.getElementById("choose_recharge_price").addEventListener('input', function() {
+				set_car(7);
+				for(var i=0;i<re_str.length;i++)
+				{
+					var str1=re_str[i].split('-');
+					if(str1.length>0)
+					{
+						if(parseFloat(document.getElementById("choose_recharge_price").value)==parseFloat(re_str[i]))  
+							set_car(i+1);
+					}									
+				}
+				
+			})
+			
+			function set_car(v)
+			{
+				document.getElementById("car1").className=v==1?"car1 curr":"car1";
+				document.getElementById("car2").className=v==2?"car2 curr":"car2";
+				document.getElementById("car3").className=v==3?"car3 curr":"car3";
+				document.getElementById("car4").className=v==4?"car1 curr":"car1";
+				document.getElementById("car5").className=v==5?"car2 curr":"car2";
+				document.getElementById("car6").className=v==6?"car3 curr":"car3";
+			}
+		});
+
+		var pays = {};
+		var descriptions = {};
+		var ids = {};
+
+		function plusReady() {
+			// 获取支付通道
+			plus.payment.getChannels(function(channels) {
+				for (var i in channels) {
+					var channel = channels[i];
+					pays[channel.id] = channel;
+					ids[i] = channel.id;
+					descriptions[i] = channel.description + "支付";;
+					checkServices(channel);
+				}
+				//				info.innerText = txt;
+			}, function(e) {
+				outLine("获取支付通道失败：" + e.message);
+			});
+		}
+		document.addEventListener('plusready', plusReady, false);
+		// 检测是否安装支付服务
+		function checkServices(pc) {
+			// if (!pc.serviceReady) {
+			// 	var txt = null;
+			// 	switch (pc.id) {
+			// 		case "alipay":
+			// 			txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+			// 			break;
+			// 		default:
+			// 			txt = "系统未安装“" + pc.description + "”服务，无法完成支付，是否立即安装？";
+			// 			break;
+			// 	}
+			// 	plus.nativeUI.confirm(txt, function(e) {
+			// 		if (e.index == 0) {
+			// 			pc.installService();
+			// 		}
+			// 	}, pc.description);
+			// }
+		}
+		document.getElementById("chingzhi-btn").addEventListener('tap', function() {
+			if(parseFloat(document.getElementById("choose_recharge_price").value)==0 || parseFloat(document.getElementById("choose_recharge_price").value).toString()=="NaN" || parseFloat(document.getElementById("choose_recharge_price").value).toString()=="undefined")
+			{
+				mui.toast("充值金额有误!");
+				return;
+			}
+			var btnArray = [{
+				title: descriptions[0]
+			}, {
+				title: descriptions[1]
+			}];
+			plus.nativeUI.actionSheet({
+				title: "选择充值方式",
+				cancel: "取消",
+				buttons: btnArray
+			}, function(e) {
+				var index = e.index;
+				switch (index) {
+					case 0:
+						break;
+					case 1:
+						pay(ids[0]);
+						break;
+					case 2:
+						pay(ids[1]);
+						break;
+				}
+			});
+		});
+		
+		
+var w=null;
+var PAYSERVER=request_url;
+// 支付
+function pay(id){
+	if(id=='alipay') PAYSERVER+="get_pay_info";
+	if (id === 'wxpay') PAYSERVER += "get_wx_pay_info";
+	
+	PAYSERVER+="&user_pk="+ user_pk +"&rechange_money=" + document.getElementById("choose_recharge_price").value +"&"
+	console.log(id);
+	if(w){return;}//检查是否请求订单中
+	if(id==='appleiap'){
+		console.log("应用内支付");
+		clicked('payment_iap.html');
+		return;
+	}
+	console.log("----- 请求支付 -----");
+	var url=PAYSERVER;
+	if(id=='alipay'||id=='wxpay'){
+		url+=id;
+	}else{
+		plus.nativeUI.alert("不支持此支付通道！",null,"提示");
+		return;
+	}
+	var appid=plus.runtime.appid;
+	if(navigator.userAgent.indexOf('StreamApp')>=0){
+		appid='Stream';
+	}
+	url+='&appid='+appid+'&total=';
+	
+	w=plus.nativeUI.showWaiting();
+	// 请求支付订单
+	
+	var xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function(){
+		switch(xhr.readyState){
+			case 4:
+			w.close();w=null;
+			if(xhr.status==200){
+				console.log("----- 请求订单成功 -----");
+				console.log( xhr.responseText );
+				console.log(pays[id]);
+				var order=xhr.responseText; 
+				//var order=document.getElementById("order").value;
+				plus.payment.request(pays[id],order,function(result){					
+					console.log(JSON.stringify(result));
+					plus.nativeUI.alert("支付成功！",function(){
+						location.href="recharge.html";
+					},"提示");
+				},function(e){					
+					console.log("["+e.code+"]："+e.message);
+					plus.nativeUI.alert("支付失败！",function(){
+						location.href="recharge.html";
+					},"提示");
+				});
+			}else{
+				console.log("----- 请求订单失败 -----");
+				console.log( xhr.status );
+				plus.nativeUI.alert("支付失败！",function(){
+						location.href="recharge.html";
+					},"提示");
+			}
+			break;
+			default:
+			break;
+		}
+	}
+	xhr.open('GET',url);
+	console.log("请求支付订单："+url);
+	xhr.send();
+}
+	</script>
+
+</html>

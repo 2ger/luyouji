@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../js/request_url.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<style>
+			* {
+				font-size: 16px;
+			}
+			
+			.mui-table-view {
+				margin-top: 20px;
+				border: solid 1px #D6D6D6;
+				border-left: none;
+				border-right: none;
+				padding: 0 15px;
+				overflow: hidden;
+			}
+			
+			.mui-table-view::after {
+				background-color: #fff !important;
+				height: 0;
+			}
+			
+			.coach_info {
+				display: none;
+			}
+			
+			.coach_info>div {
+				float: left;
+			}
+			
+			.coach_info>div:first-child>img {
+				margin-top: 35px;
+				width: 70px;
+				height: 70px;
+				border: solid 2px #FF0066;
+				border-radius: 70px;
+			}
+			
+			.coach_info>div>ul {
+				padding-left: 20px;
+			}
+			
+			.coach_info>div>ul>li {
+				list-style: none;
+				line-height: 25px;
+			}
+			
+			.coach_info>div>ul>li>img {
+				width: 28px;
+			}
+			
+			.coach_info>div:last-child {
+				float: right;
+			}
+			
+			.coach_info>div:last-child>img {
+				margin: 20px 0 0 0;
+				width: 50px;
+				height: 50px;
+			}
+			
+			.coach_info>div:last-child>img:first-child {
+				width: 40px;
+				height: 40px;
+			}
+			
+			.coach_info>div:last-child>img:last-child {
+				width: 40px;
+				height: 40px;
+			}
+			
+			.fee_info>div {
+				text-align: center;
+			}
+			
+			.fee_info>div>ul {
+				padding: 0;
+				margin: 0 auto;
+				width: 70%;
+			}
+			
+			.fee_info>div>ul>li {
+				list-style: none;
+				line-height: 25px;
+				text-align: left;
+				font-size: 14px;
+			}
+			
+			.fee_info>div>ul>li>i {
+				float: right;
+				font-style: normal;
+				line-height: 25px;
+				font-size: 14px;
+			}
+			
+			.pingjia {
+				display: none;
+			}
+			
+			.pingjia>.start {
+				width: 100%;
+				text-align: center;
+				padding: 10px 0;
+			}
+			
+			.pingjia>.start>img {
+				width: 35px;
+				margin: 0 3px;
+			}
+			
+			.pingjia>div>input {
+				padding: 10px;
+				width: 73%;
+			}
+			
+			.pingjia>div>button {
+				float: right;
+				width: 23%;
+				border: none;
+				line-height: 26px;
+				font-size: 20px;
+				background: #A4A4A4;
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">订单详情</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-table-view mui-table-view-chevron coach_info" id="coach_info">
+				<div><img src="../img/freeride.png"></div>
+				<div>
+					<ul>
+						<li id="coach_name"></li>
+						<li id="coach_car_type_name"></li>
+						<li id="coach_order_count">0单</li>
+						<li id="start"></li>
+					</ul>
+				</div>
+				<div><img src="../img/telephone_icon@2x_12.png" id="coach_tel">
+					<br>
+					<img src="../img/chat_icon@2x_10.png" id="coach_pingjia">
+				</div>
+			</div>
+			<div class="mui-table-view mui-table-view-chevron fee_info">
+				<div style="width:100%; text-align: center; padding: 10px 0;">车费详情</div>
+				<div>
+					<ul>
+						<li>起步价<i id="car_meal_fee">0.0元</i></li>
+						<li>里程费（<span id="order_away">0</span>公里）<i id="order_away_fee">0元</i></li>
+						<li>时长费（<span id="order_time">0</span>分钟）<i id="order_time_fee">0元</i></li>
+					</ul>
+				</div>
+				<div style="width:100%; text-align: center;font-size: 18px; padding: 15px 0;" id="order_fee">0元</div>
+			</div>
+			<div class="mui-table-view mui-table-view-chevron pingjia" id="div_pingjia">
+				<div class="start">
+					<img src="../img/star_icon@2x_11.jpg" score="1" />
+					<img src="../img/star_icon@2x_11.jpg" score="2" />
+					<img src="../img/star_icon@2x_11.jpg" score="3" />
+					<img src="../img/star_icon@2x_11.jpg" score="4" />
+					<img src="../img/star_icon@2x_11.jpg" score="5" />
+				</div>
+				<input type="hidden" id="score" />
+				<div style="width:100%; text-align: center;font-size: 15px; padding: 0 0 10px;">您的建议是我们进步的源泉</div>
+				<div style="width:100%; font-size: 15px; padding: 20px 0 10px;">
+					<input type="text" placeholder="师傅很贴心" id="pingjia_content">
+					<button id="btn_pingjia">评价</button>
+				</div>
+
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" charset="utf-8">
+		mui.init();
+		//司机信息      
+		var coach_pk = "",
+			order_pk = "";
+		var coach_name = document.getElementById("coach_name");
+		var coach_car_type_name = document.getElementById("coach_car_type_name");
+		var coach_order_count = document.getElementById("coach_order_count");
+		var coach_tel = document.getElementById("coach_tel");
+		var coach_pingjia = document.getElementById("coach_pingjia");
+		var order_away = document.getElementById("order_away");
+		var order_time = document.getElementById("order_time");
+		var car_meal_fee = document.getElementById("car_meal_fee");
+		var order_away_fee = document.getElementById("order_away_fee");
+		var order_time_fee = document.getElementById("order_time_fee");
+		var order_fee = document.getElementById("order_fee");
+		var pingjia_content = document.getElementById("pingjia_content");
+		var input_score = document.getElementById("score");
+		mui.plusReady(function() {
+			order_pk = plus.webview.currentWebview().param;
+			//调用提交处理函数
+			get_orderdetail();
+			document.getElementById("btn_pingjia").addEventListener('tap', function(e) {
+				var content = pingjia_content.value != "" ? pingjia_content.value : "师傅很贴心";
+				var score = parseInt(input_score.value || 0);
+				if (coach_pk != "") {
+					var url = request_url + "evel_order";
+					mui.ajax(url, {
+						data: {
+							"order_pk": order_pk,
+							"eval_score": score,
+							"eval_rem": content
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 5000, //超时时间设置为5秒；
+						success: function(response) {
+							if (parseInt(response.result || 0) > 0) {
+								mui.toast("感谢您的反馈！");
+								document.getElementById("div_pingjia").style.display = "none";
+							} else {
+								mui.toast("网络错误，请重试！");
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+						}
+					});
+				}
+			});
+			mui(".start img").each(function(i) {
+				this.addEventListener('tap', function(e) {
+					var score = parseInt(this.getAttribute("score"));
+					input_score.value = score;
+					mui(".start img").each(function(j) {
+						if (j < score) this.setAttribute("src", "../img/star_icon@2x_12.jpg")
+						else this.setAttribute("src", "../img/star_icon@2x_11.jpg")
+					});
+				});
+			});
+		});
+		//获取订单详情
+		function get_orderdetail() {
+			var url = request_url + "get_order_info";
+			mui.ajax(url, {
+				data: {
+					"order_pk": order_pk
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 5000, //超时时间设置为5秒；
+				success: function(response) {
+					if (response.Table[0].coach_pk != "" && response.Table[0].coach_phone != "") {
+						document.getElementById("coach_info").style.display = "block";
+						if (response.Table[0].order_state == "4")
+							document.getElementById("div_pingjia").style.display = "block";
+						coach_pk = response.Table[0].coach_pk;
+						var coach_car_number = response.Table[0].coach_car_number;
+						coach_car_number = coach_car_number.substring(0, 1) + "*****" + coach_car_number.substring(coach_car_number.length - 1, coach_car_number.length);
+						coach_name.textContent = response.Table[0].coach_name + "•" + coach_car_number;
+						coach_car_type_name.textContent = response.Table[0].car_name;
+						coach_order_count.textContent = response.Table[0].coach_order_count + "单";
+						var coach_score = parseInt(response.Table[0].coach_score || 0);
+						for (var i = 0; i < coach_score; i++) {
+							document.getElementById("start").innerHTML += "<img src=\"../img/star_icon@2x_15.jpg\" />";
+						}
+						for (var i = 0; i < 5 - coach_score; i++) {
+							document.getElementById("start").innerHTML += "<img src=\"../img/star_icon@2x_22.png\" />";
+						}
+						coach_tel.addEventListener('tap', function(e) {
+							plus.device.dial(response.Table[0].coach_phone, true);
+						});
+						coach_pingjia.addEventListener('tap', function(e) {
+							mui.openWindow({
+								url: "coach_info.html",
+								extras: {
+									param: response.Table[0].coach_pk
+								}
+							});
+						});
+					}
+					order_away.textContent = response.Table[0].order_away;
+					order_time.textContent = response.Table[0].order_time;
+					car_meal_fee.textContent = response.Table[0].car_meal_fee + "元";
+					order_away_fee.textContent = response.Table[0].order_away_fee + "元";
+					order_time_fee.textContent = response.Table[0].order_time_fee + "元";
+					order_fee.textContent = response.Table[0].order_fee + "元";
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+				}
+			});
+		}
+	</script>
+
+</html>

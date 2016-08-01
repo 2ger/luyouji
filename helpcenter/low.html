@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js" ></script>
+        <script type="text/javascript" src="../js/common.js" ></script>
+         <style type="text/css">
+        	* {
+				font-size: 12px;
+			}
+			.mui-content > .mui-card:first-child{ margin:30px 0 0 0; border-radius: 0; padding: 15px;}
+        </style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">法律条款</h1>
+		</header>
+		<div class="mui-content">
+			
+			<div class="mui-card" id="law_content">
+				正在加载...
+			</div>
+		</div>
+		
+	</body>
+     <script>
+       
+       var law_content =  document.getElementById("law_content");
+    	mui.plusReady(function(){
+  		 	var url = request_url+"get_Info"+"&v=0000300002";    
+			mui.getJSON(url, function(rsp){
+				console.log(JSON.stringify(rsp));
+				 
+				law_content.innerHTML = textdecode1(rsp.result); 
+			});
+  	});
+    </script>
+</html>

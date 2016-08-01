@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js"></script>
+		<style type="text/css">
+			* {
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">投诉</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="mui-content-padded">
+
+				<div class="row mui-input-row">
+					<p>被投诉人</p>
+					<input type="text" id="questionId" />
+				</div>
+				<div class="row mui-input-row">
+					<p>标题</p>
+					<input type="text" id="titleId" />
+				</div>
+				<p>投诉内容</p>
+				<div class="row mui-input-row">
+					<textarea id='contentId' class="mui-input-clear"></textarea>
+				</div>
+				<div>
+					<button class="mui-btn mui-btn-block mui-btn-danger" id="submit_btn">提交</button>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+	<script>
+		var questionId = document.getElementById("questionId");
+		var titleId = document.getElementById("titleId");
+		var contentId = document.getElementById("contentId");
+		var submit_btn = document.getElementById("submit_btn");
+		mui.init();
+		mui.plusReady(function() {
+			sumbit_data();
+		});
+		//提交数据  
+		function sumbit_data() {
+			submit_btn.addEventListener("tap", function() {
+				var url = request_url + "save_info";
+				var user_pk = plus.storage.getItem('user_pk');
+				//		    info_type  信息类型 1投诉 2建议
+				//			user_type  用户类型 1司机 2用户
+				//			user_pk  用户标示
+				//			info_title 标题
+				//			info_content 内容
+				//			info_obj  被投诉对象 
+				mui.ajax(url, {
+					data: {
+						"info_type": "1",
+						"user_type": "2",
+						"user_pk": user_pk,
+						"info_title": titleId.value,
+						"info_content": contentId.value,
+						"info_obj": questionId.value
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 5000, //超时时间设置为10秒；
+					success: function(response) {
+						console.log(JSON.stringify(response));
+						if (response.result == "1") {
+							mui.toast("投诉内容提交成功!");
+						} else {
+							mui.toast("投诉内容提交失败!");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+					}
+				});
+			});
+		}
+	</script>
+
+</html>

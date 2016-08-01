@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			* {
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">乘车人</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<label id="fillin_info" class="mui-pull-right" style="margin-top: 13px;">完成</label>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>
+					<label style="font-size: 12px;">姓名：</label>
+					<input id="user_name" type="text" placeholder="请写真实姓名" style="font-size: 12px;" />
+				</p>
+				<p>
+					<label style="font-size: 12px;">联系方式：</label>
+					<input id="user_contact" type="text" value="" placeholder="联系方式" style="font-size: 12px;" />
+				</p>
+			</div>
+			<div class="mui-content-padded">
+				<p>
+					<span style="font-size: 12px;">给司机留言:</span>
+					<textarea cols="2" rows="5" id="taxi_comments" style="font-size: 12px;"></textarea>
+				</p>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" charset="utf-8">
+		mui.init();
+		mui.plusReady(function() {
+			/*完成事件*/
+			var fillin_info = document.getElementById("fillin_info");
+			var user_name = document.getElementById("user_name");
+			var user_contact = document.getElementById("user_contact");
+			var taxi_comments = document.getElementById("taxi_comments");
+			var student_real_name = plus.storage.getItem('student_real_name');
+			var student_phone = plus.storage.getItem('student_phone');
+			user_name.value = student_real_name;
+			user_contact.value = student_phone;
+			fillin_info.addEventListener("tap", function() {
+				if (user_name.value == "") {
+					mui.toast("姓名不能为空");
+					return false;
+				} else {
+					var strInfo = "";
+					strInfo = user_name.value + "&" + user_contact.value + "&" + taxi_comments.value;
+					//console.log(strInfo);
+					var datatype = plus.storage.getItem('date_type');
+					if (datatype == 1) {
+						plus.storage.setItem('person_info', strInfo);
+					} else {
+						plus.storage.setItem('fast_person_info', strInfo);
+					}
+					mui.back();
+				}
+			});
+		})
+	</script>
+
+</html>

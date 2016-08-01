@@ -1,0 +1,191 @@
+yh999999<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.listpicker.js"></script>
+		<script src="js/mui.dtpicker.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/request_url.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ylg8yBCSUPFnuu82sDnIbZ5H"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.listpicker.css" rel="stylesheet" />
+		<link href="css/mui.dtpicker.css" rel="stylesheet" />
+		<style>
+		.mui-table-view-cell::after{width:91%;}
+		.mui-table-view-cell > a:not(.mui-btn){margin: -11px -19px;}
+			.div_padding {
+				padding-top: 10px;
+			}
+			
+			.div_padding span {
+				padding-left: 10px;
+				
+			}
+			.mui-btn-block
+			{			
+				height: 40px;
+				line-height: 30px;
+				font-size: 16px;
+				border-radius: 3px;
+			}
+		/*	.div_padding td{
+				padding-left: 8%;
+			} */
+			input[type=text]
+			{
+				margin-bottom: 0;
+				padding: 5px;
+			}
+			.mui-table-view-cell span{ padding: 0;}
+			.mui-media-object{ font-size: 16px;}
+			.mui-navigate-right::after{content: "";}
+			#confirm_oper{ width: 100px; height: 40px; font-size: 18px; background: #FF0066; border: solid 1px #FF0066; color: #fff;}
+			* {
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">补充订单</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		</header>
+		<div class="mui-content">
+			<!--乘车人信息 -->
+			<div class="div_padding" style="display: none;">
+				<ul class="mui-table-view mui-table-view-chevron">
+
+					<li class="mui-table-view-cell">
+
+						<a class="mui-navigate-right" open-type="common" href="taxi_client.html">
+							<img class="mui-media-object mui-pull-left" id="setpic" src="img/freeride.png">
+							<span id="person_info" class="mui-media-object"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!--日期-->
+			<div class="div_padding" > 
+				<span style="font-size: 16px;">选择日期时间</span>
+				<button id='result' data-options='{}' class="btn mui-btn mui-btn-block"></button>
+			</div>
+			<!--选择车型-->
+			<div class="div_padding" >
+				<span style="font-size: 16px;">车型选择</span>
+				<div style=" padding: 10px 0px; background: #ffffff;border: 1px solid #ccc;">
+					<table border="0" width="100%" style="margin-left:20px;">
+					<tr id="tr_carname">
+					</tr>
+					<tr id="tr_carimg">
+					</tr>
+					<tr>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>&nbsp;</label>
+								<input name="choose_taxi" type="radio" checked value="0" onchange="choose_carType();">
+
+							</div>
+						</td>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>&nbsp;</label>
+								<input name="choose_taxi" type="radio" value="1" onchange="choose_carType();">
+							</div>
+						</td>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>&nbsp;</label>
+								<input name="choose_taxi" type="radio" value="2" onchange="choose_carType();">
+							</div>
+						</td>
+						<td>
+							<div class="mui-input-row mui-radio mui-left">
+								<label>&nbsp;</label>
+								<input name="choose_taxi" type="radio" value="3" onchange="choose_carType();">
+							</div>
+						</td>
+						
+					</tr>
+				</table>
+				</div>
+			</div>
+			<!--统计套餐信息-->
+			<div style="text-align: center;margin-top: 10px;">
+				<p>
+					<span id="distance_span">&nbsp;</span>
+				</p>
+				<!--<p>
+					<span id="cost_span">&nbsp;</span>
+				</p>-->
+				<p>
+					<span id="cartype_span">&nbsp;</span>
+				</p>
+			</div>
+			
+			<!--乘车起始和结束地址-->
+			<div class="div_padding">
+				<span style="font-size: 16px;">订单确定</span>
+				<ul class="mui-table-view mui-table-view-chevron">
+
+					<li class="mui-table-view-cell">
+						<a open-type="common">
+							<span>发货地址：</span>
+							<input id="startPosition" type="text" style="width:80%;height:30px;line-height:30px;font-size: 14px;" readonly="readonly" />
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a open-type="common">
+							<span>收货地址：</span>
+							<input id="endPosition" type="text" style="width: 80%;height:30px;line-height:30px;font-size: 14px;" readonly="readonly" />
+						</a>
+					</li>
+					
+					<li class="mui-table-view-cell">
+						<a open-type="common">
+							<span>&nbsp;&nbsp;&nbsp;收货人：</span>
+							<input id="receiveMan" type="text" maxlength="11" style="width: 80%;height:30px;line-height:30px;font-size: 14px;"  />
+						</a>
+					</li>
+					
+					<li class="mui-table-view-cell">
+						<a open-type="common">
+							<span>联系电话：</span>
+							<input id="receiveTel" type="text" maxlength="11" style="width: 80%;height:30px;line-height:30px;font-size: 14px;"  />
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-hidden">
+						<label >是否承保：</label>
+						<input  id="receiveBao" name="receiveBao" type="checkbox">
+						
+					</li>
+					<li class="mui-table-view-cell  mui-hidden">
+						<a open-type="common">
+							<span>物品价值：</span>
+							<input id="receiveMoney" type="text" style="width: 80%;height:30px;line-height:30px;font-size: 14px;"  />
+						</a>
+					</li>
+	
+				</ul>
+			</div>
+			<div class="div_padding">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<a id="price_detail" class="mui-navigate-right" open-type="common" >
+							<span class="mui-media-object">预估价</span>
+							<span id="package_price" clsss="mui-media-object" style="color: #FF0066; font-size: 18px;"></span>
+						</a>
+						<button id="confirm_oper" class="mui-btn">提交订单</button>
+					</li>
+				</ul>
+			</div>
+			<!---计算地图上两点的距离和时间--->
+			<div id="allmap" style="display:none"></div>
+		</div>
+	</body>
+<script src="js/fast_yuyue.js" type="text/javascript" charset="utf-8"></script>
+</html>

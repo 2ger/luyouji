@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+<style>
+	* {
+				font-size: 12px;
+			}
+</style>
+</head>
+<body>
+	 <header class="mui-bar mui-bar-nav">
+		<h1 class="mui-title">价格明细</h1>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+	</header>
+	<div class="mui-content">
+	     <div align="center">
+	         <img src="img/iconfont-yue.png" />
+	         <div>
+	         	<p><label id="lb_cartype">&nbsp;</label></p>
+	         	<p><label id="lb_cardesc">&nbsp;</label></p>
+	         </div>
+	     </div>
+	     <div id="lb_actualprice" align="center" style="margin-top: 20px; background: #FFFFFF;line-height: 15px; color: #00000; padding: 10px 0;">
+	     	
+	     </div>
+	     <hr style="border: 1px dashed;gray;">
+     	<div style="padding: 10px;font-size: 12px;">
+     		<p>
+     			<label>预估费用仅提供参考，实际费用可能因为交通、天气或其他因素而不同。</label>
+     		</p>
+     		<p>
+     			<label>预估费用不包含路桥费、停车费等第三方收取的费用</label>
+     		</p>
+     	</div>
+	</div>
+</body>
+
+	<script type="text/javascript" charset="utf-8">
+	  	mui.init();
+	  	mui.plusReady(function(){	  		
+	  	  var strParam = plus.webview.currentWebview().param;
+	  	  var lb_cartype = document.getElementById("lb_cartype");
+	  	  var Parem=strParam.split('&');
+	  	  //根据选择类型判断
+	  	  var carType = Parem[0];
+	  	  if(0 == carType)
+	  	  {
+	  	  	lb_cartype.textContent = "豪华轿车";
+	  	  }
+	  	  else if(1 == carType)
+	  	  {
+	  	  	lb_cartype.textContent = "商务7座";
+	  	  }
+	  	  else
+	  	  {
+	  	  	lb_cartype.textContent = "公务轿车";
+	  	  }
+	  	  
+	  	  //获取车描述信息
+	  	  var lb_cardesc = document.getElementById("lb_cardesc");
+	  	  lb_cardesc.textContent = Parem[1];
+	  	  var strdistance = Parem[2]>0?parseFloat(parseFloat(parseFloat(Parem[2])/1000).toFixed(3)):"N";
+		  var strcosttime = Parem[3]>0?parseInt(parseInt(Parem[3])/60):"N";
+		  var car_start_price=parseFloat(Parem[4]);//起租价
+		  var car_meal_away=parseFloat(Parem[9]);//起租价包含公里
+		  var order_away_price=parseFloat(Parem[5]);//里程价
+		  var order_time_price=parseFloat(Parem[6]);//时长价
+		  var car_far_away=parseFloat(Parem[7]);//远途标准
+		  var order_far_price=parseFloat(Parem[8]);//远途价
+		  
+		  var order_away_fee=0;
+		  var order_time_fee=0;
+		  var order_far_away_fee=0;//远途费
+		  
+		  if(strdistance>0)  
+		  {
+		  	if(strdistance>car_meal_away)
+		  	{
+		  		var strdistance1=(strdistance-car_meal_away);
+		  		strdistance1=strdistance1>0?strdistance1:0;
+		  		order_away_fee=strdistance1*order_away_price;//里程费		  		
+		  	}
+		  	else
+		  	{
+		  		order_away_fee=0;
+		  	}
+		  }
+		  if(strcosttime>0)  order_time_fee=strcosttime*order_time_price;//时长费
+		  if(strdistance>0 && strdistance>car_far_away) order_far_away_fee=(strdistance-car_far_away)*order_far_price;//（里程-远途标准）*远途价
+		  		  
+		  var order_fee=(car_start_price+order_away_fee+order_time_fee+order_far_away_fee).toFixed(2);
+		  
+		  lb_actualprice.innerHTML ="<p>起租价 ￥" + car_start_price+"（含"+ car_meal_away.toString().replace(".00","")+"公里）</p>";
+		  lb_actualprice.innerHTML +="<p>+</p><p>里程费("+ strdistance +"*￥"+ order_away_price +"/公里)</p>"; 
+		  lb_actualprice.innerHTML +="<p>+</p><p>时长费("+ strcosttime +"*￥"+ order_time_price +"/分钟)</p>"; 
+		  if(strdistance>0 && strdistance>car_far_away) lb_actualprice.innerHTML +="<p>+</p><p>远途费("+ (strdistance-car_far_away).toFixed(3) +"*￥"+ order_far_price +"/公里)("+car_far_away+"公里以上)</p>";  
+		  lb_actualprice.innerHTML +="<p>=</p><p>预估计(约)￥"+ order_fee +"</p>";  
+		  
+	  	  //console.log(Parem[4] + "_"+Parem[5] + "_"+Parem[6] + "_"+Parem[7] + "_"+Parem[8]);
+ 
+//	  	  //获取套餐信息
+//	  	  var lb_packageinfo = document.getElementById("lb_packageinfo");
+//	  	  lb_packageinfo.textContent = strParam.split('&')[2]+"("+strParam.split('&')[4]+")";
+//	  	   
+//	  	   //获取超出费用信息
+//	  	  var lb_farprice = document.getElementById("lb_farprice");
+//	  	  lb_farprice.textContent = strParam.split('&')[3];
+//	  	  
+//	  	  //计算实际价格
+//	  	  var lb_actualprice = document.getElementById("lb_actualprice");
+//	  	  lb_actualprice.textContent = "实际用车费用:"+strParam.split('&')[4];
+	  	});
+	</script>
+</html>

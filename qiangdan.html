@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript" src="js/request_url.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ylg8yBCSUPFnuu82sDnIbZ5H"></script>
+		<link href="css/axure_rp_page.css" type="text/css" rel="stylesheet" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/styles.css" type="text/css" rel="stylesheet" />
+		<style>
+			html{
+				height: 100%;
+				background: url(img/home/u0.png) center top no-repeat;
+			    background-size: 100% 100%;
+			  background-origin: content-box;
+			}
+		</style>
+	</head>
+
+	<body>	
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">您已被抢单</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card">
+				<div class=" top_bg">
+					<p><span  style="font-size: 20px; font-weight: bold;">您已被抢单</span></p>
+				</div>
+				<div class="mui-input-row">
+					
+						车牌号码：
+					
+					<!--<input class="mui-col mui-col-xs-11 mui-input-clear mui-input" id="chufadi" value="" placeholder="出发地">-->
+					<span id="chepai"></span>
+				</div>
+				<div class="mui-input-row">
+					
+						司机姓名：
+				
+					<!--<input class="mui-col mui-col-xs-11 mui-input-clear mui-input" id="chufadi" value="" placeholder="出发地">-->
+					<span id="chufadi"></span>
+				</div>
+				<div class="mui-input-row">					
+						联系电话：					
+					<!--<input class="mui-col mui-col-xs-11 mui-input-clear mui-input" id="mudidi" value="" placeholder="目">-->
+					<a id="icon-phone" ><span class="mui-icon mui-icon-phone"></span></a>
+					<span id="mudidi"></span>
+				</div>
+				<div class="mui-input-row" id="juli" style=" text-align: center;">					
+						
+				</div>
+				 <div class="mui-input-row" id="shijian" style=" text-align: center;">					
+						
+				</div>
+				<div id="map" style=" display: none;"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 百度地图API功能
+			var map = new BMap.Map("map");
+			map.centerAndZoom(new BMap.Point(116.404, 39.915), 12);			
+			var searchComplete = function (results){
+				if (transit.getStatus() != BMAP_STATUS_SUCCESS){
+					return ;
+				}
+				var plan = results.getPlan(0);				
+				document.getElementById("shijian").innerText="预计" + plan.getDuration(true)+ "后到达"
+				document.getElementById("juli").innerText="距离还有" + plan.getDistance(true);
+			}
+			var transit = new BMap.DrivingRoute(map, {renderOptions: {map: map},
+				onSearchComplete: searchComplete,
+				onPolylinesSet: function(){        
+					
+			}});
+			
+		</script>
+		<script type="text/javascript" charset="utf-8">
+			var mPoint;			
+			var ePoint;
+			var transit;	
+			var coach_pk;
+			mui.init();
+			mui.plusReady(function() {
+				startPlay();
+				var strParam = textdecode1(plus.webview.currentWebview().param);
+				console.log("strParam==" + strParam);
+				var strParamStr = JSON.parse(strParam);
+				console.log("strParamStr==" + strParamStr);
+				/*初始化控件对象，获得id*/
+				var chepai = document.getElementById("chepai");
+				var chufadi = document.getElementById("chufadi");
+				var mudidi = document.getElementById("mudidi");
+	 			chepai.textContent=strParamStr.Table[0].coach_car_number;
+				chufadi.textContent = strParamStr.Table[0].coach_name;
+				coach_pk=strParamStr.Table[0].coach_pk;
+				mudidi.textContent = strParamStr.Table[0].coach_phone;				
+				mudidi.addEventListener("tap", function() {
+					plus.device.dial(strParamStr.Table[0].coach_phone, false);
+				});
+				ePoint=new BMap.Point(strParamStr.Table[0].start_lon, strParamStr.Table[0].start_lat);											
+				GetLength();
+			});			
+			function GetLength()
+			{
+				var url = request_url + "get_coach_info";
+				mui.ajax(url, {
+					data: {
+						"coach_pk": coach_pk
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 5000, //超时时间设置为5秒；
+					success: function(rsp) {						
+						mPoint = new BMap.Point(rsp.Table[0].coach_lon,rsp.Table[0].coach_lat);
+						transit.search(mPoint, ePoint);		
+						setTimeout("GetLength()",2000);
+					}
+				});				
+			}
+			
+			// 开始播放
+			function startPlay() {
+//				 if(plus.storage.getItem("YINXIAO")=="1")//!=
+//				 {
+			var p = plus.audio.createPlayer("img/souli.mp3");//neworder
+					p.play(function() {}, function(e) {
+						outLine("播放音频文件\"" + url + "\"失败：" + e.message);
+					});
+//				 }
+			}
+		</script>
+		
+	</body>
+
+</html>

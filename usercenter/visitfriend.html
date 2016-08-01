@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script language="javascript" type="text/javascript" src="../js/ShareSDK.js"></script>
+	</head>
+
+	<body onload="init()">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">邀请有礼</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="mui-content">
+				<ul class="mui-table-view mui-grid-view mui-grid-9">
+					<li id="weixin_li" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+						<img src="../img/iconfont-weixin.png" width="50px" />
+						<div class="mui-media-body">微信</div>
+					</li>
+					<li id="xinlang_li" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+						<img src="../img/iconfont-xinlangweibo.png" width="50px" />
+						<div class="mui-media-body">新浪微博</div>
+					</li>
+					<li id="tengxun_li" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+						<img src="../img/iconfont-tengxunweibo.png" width="50px" />
+						<div class="mui-media-body">腾讯微博</div>
+					</li>
+					<li id="qq_li" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+						<img src="../img/iconfont-qq.png" width="50px" />
+						<div class="mui-media-body">QQ</div>
+					</li> 
+					<li id="pengyouquan_li" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+						<img src="../img/iconfont-pengyouquan.png" width="50px" />
+						<div class="mui-media-body">朋友圈</div>
+					</li>
+				</ul>
+			</div>
+	</body>
+	<script>
+		mui.init();
+
+		function init() {
+			$sharesdk.open("iosv1101", true);
+			var sinaConf = {};
+			sinaConf["app_key"] = "cdc3d79b745c";
+			sinaConf["app_secret"] = "6 cd522149b1018186e5ffa8ec78c903e";
+			sinaConf["redirect_uri"] = "http://www.sharesdk.cn";
+			$sharesdk.setPlatformConfig($sharesdk.platformID.SinaWeibo, sinaConf);
+		}
+
+		function plusready() {
+			var weixin_li = document.getElementById("weixin_li");
+			var xinlang_li = document.getElementById("xinlang_li");
+			var tengxun_li = document.getElementById("tengxun_li");
+			var qq_li = document.getElementById("qq_li");
+			var qqzone_li = document.getElementById("qqzone_li");
+			var pengyouquan_li = document.getElementById("pengyouquan_li");
+			var copyText = "";
+			weixin_li.addEventListener("click", function() {
+				//				copyText = "www.weixin.com";
+				//				var Context = plus.android.importClass("android.content.Context");
+				//				var main = plus.android.runtimeMainActivity();
+				//				var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+				//				plus.android.invoke(clip, "setText", copyText);
+				//				mui.toast("复制成功");
+ 				shareWeixinMessage();
+			});
+			xinlang_li.addEventListener("click", function() {
+				copyText = "www.sina.com";
+				var Context = plus.android.importClass("android.content.Context");
+				var main = plus.android.runtimeMainActivity();
+				var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+				plus.android.invoke(clip, "setText", copyText);
+				mui.toast("复制成功");
+			});
+			tengxun_li.addEventListener("tap", function() {
+				copyText = "www.tengxun.com";
+				var Context = plus.android.importClass("android.content.Context");
+				var main = plus.android.runtimeMainActivity();
+				var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+				plus.android.invoke(clip, "setText", copyText);
+				mui.toast("复制成功");
+			});
+			pengyouquan_li.addEventListener("tap",function(){
+				shareWeixinMessage();
+			});
+		}
+		document.addEventListener('plusready', plusready);
+	</script>
+	<script type="text/javascript">
+		var shares = null,
+			sharewx = null;
+		// 监听plusready事件  
+		document.addEventListener("plusready", function() {
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			plus.share.getServices(function(s) {
+				shares = s;
+				for (var i in s) {
+					if ('weixin' == s[i].id) {
+						sharewx = s[i];
+					}
+				}
+			}, function(e) {
+				alert("获取分享服务列表失败：" + e.message);
+			});
+		}, false);
+
+		function shareWeixinMessage() {
+			sharewx.send({
+				content: "DCloud HBuilder-做最好的HTML5开发工具",
+				href: "http://www.dcloud.io/",
+				extra: {
+					scene: "WXSceneTimeline"
+				}
+			}, function() {
+				alert("分享成功！");
+			}, function(e) {
+				alert("分享失败：" + e.message);
+			});
+		}
+	</script>
+
+</html>

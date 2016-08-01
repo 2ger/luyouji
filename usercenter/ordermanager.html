@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/request_url.js"></script>
+		<style>
+			.title{ padding: 15px 0  5px 13px; display: none;}
+			#order_content_div1,#order_content_div2{ display: none;}
+			.order_list_view {
+				margin: 0;
+				border-radius: 0;
+				border-left: none;
+				border-right:none;
+				color: #000;
+				/*background: #ccc;*/
+				
+				width: 100%;
+				position: relative;
+			}
+			.mui-table-view-cell{ padding: 7px 15px !important;}
+			.child_div{ position: relative; margin: 0 ;}
+			.child_div:first-child{ margin-top: 0px;}
+			.child_div:last-child{ margin-bottom: 0px;}
+			.child_div:after{
+				background-color: #ccc;			   
+			    content: "";
+			    height: 1px; 
+			    left: 0;
+			    position: absolute;
+			    right: 0;
+			    transform: scaleY(0.5);
+			    font-size: 0;
+			    
+			}
+			.child_div:last-child:after{ background-color: transparent;}
+			.order_list_view *{color:#000; font-size: 14px;}
+			.child_div>a>div{ width:93%;}
+			.child_div>a>div>i{ display: inline-block; margin: 0 5px;}
+			.child_div>a>div>span{display: inline-block; width: 50%; overflow: hidden; white-space:nowrap; text-overflow:ellipsis;  }			
+			#order_content_div1>div>a>div.address>span{display: block; margin:2px 0 3px 5%; width: 95%; white-space:nowrap;}
+			#order_content_div1>div>a>div.address>span:first-child{ color: #109D2D;}
+			#order_content_div1>div>a>div.address>span:last-child{ color: #FF0066;}
+			.mui-navigate-right:after, .mui-push-right:after{ font-weight: bold; font-size: 18px;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content" >
+			<div class="title" id="order_title_div1" >正在进行中</div>
+			<div id="order_content_div1" class=" mui-card order_list_view">
+				
+			</div>
+			<div class="title" id="order_title_div2">已完成订单</div>
+			<div id="order_content_div2" class=" mui-card order_list_view">
+	
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript" charset="utf-8">
+		var order_pk = "";
+		var user_pk = "";
+		mui.init();
+		//  	/*取消订单点击事件*/
+		//  	var score = document.getElementById("score");
+		//  	var canceld_order = document.getElementById("canceld_order");
+		//  	var cancel_order = document.getElementById("cancel_order");
+		//  	var str ="距预约时间48小时之外可免费取消";
+		//     
+		//  	cancel_order.addEventListener("tap",function(){
+		//  				//弹出确认提示框
+		//	           	    var btnArray = ['同意', '取消'];
+		//					mui.confirm(str, '温馨提示:', btnArray, function(e) {
+		//					if (e.index == 0) {
+		//						//同意事件
+		//                       alert("订单取消成功");
+		//                       cancel_order.style.display = "none";
+		//                       canceld_order.style.display  = "";
+		//                       score.style.display = "none"; 
+		//                       
+		//					} else {
+		//						//不同意事件
+		//						 cancel_order.style.display  = "";
+		//                       canceld_order.style.display  = "none";
+		//						} 
+		//					})
+		//  	})
+		//  	
+		mui.plusReady(function() {
+			user_pk = plus.storage.getItem('user_pk');
+			init();
+		})
+			//初始化界面参数
+		function init() {
+			//var user_pk = plus.storage.getItem('user_pk');	
+			var url = request_url + "get_user_orderlist";
+			console.log("user_pk===" + user_pk);
+			mui.ajax(url, {
+				data: {
+					"user_pk": user_pk
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 5000, //超时时间设置为10秒；
+				success: function(response) {
+					console.log(JSON.stringify(response));
+					console.log("response.length===" + response.Table.length);
+					if (response.Table.length != 0) {
+						dyn_create_ui(response);
+						view_orderdetail();
+					}
+					else
+					{							
+						order_content_div1.innerHTML ="<div  style=\"color:#ccc;margin: 30px 0 0 20px;\">暂无订单信息</div>"
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+				}
+			});
+		}
+		//动态绘制页面数据
+		var order_content_div1 = document.getElementById("order_content_div1");
+		var strTemp1 = "",strTemp2 = "";
+		var strBtn = "";
+		var strDate = "";
+		var strCoach = "";
+		var strPayState = "";
+		var str_coachTel = "";
+		var str_startAddr = "";
+		var str_endAddr = "";
+		var iflag = 0; // 0 隐藏取消和评分按钮  1 显示取消按钮  2 显示评分按钮
+		var coach_name_flag = 0;
+
+		function dyn_create_ui(result) {
+			
+			for (var i = 0; i < result.Table.length; i++) { //0 快车 1 专车
+				var order_type = result.Table[i].order_type;
+				order_pk = result.Table[i].order_pk;
+				if (0 == order_type) {
+					strBtn = "快车";
+				} else if (1 == order_type) {
+					strBtn = "专车";
+				} 
+				
+				strDate = result.Table[i].order_datetime;																			
+				str_startAddr = result.Table[i].start_address;
+				str_endAddr = result.Table[i].end_address;
+				if(parseInt(result.Table[i].order_state)>4) strTemp2 += '<div name="child_div" class="child_div mui-table-view-cell "><a class="mui-navigate-right"><span style="display:none">' + order_pk + '</span><div>' + strDate + '<i></i>'+strBtn+'</div><div class="address"><span>从&nbsp;&nbsp;&nbsp;' + str_startAddr + "</span><span>到&nbsp;&nbsp;&nbsp;" + str_endAddr + '</span></div></a></div>'
+				else strTemp1 += '<div name="child_div" class="child_div mui-table-view-cell"><a class="mui-navigate-right"><span style="display:none">' + order_pk + '</span><div>' + strDate + '<i></i>'+strBtn+'</div><div class="address"><span>从&nbsp;&nbsp;&nbsp;' + str_startAddr + "</span><span>到&nbsp;&nbsp;&nbsp;" + str_endAddr + '</span></div></a></div>'				
+			}
+			
+			if(strTemp1!=""){order_content_div1.style.display="block";  document.getElementById("order_title_div1").style.display="block"; order_content_div1.innerHTML = strTemp1;}
+			if(strTemp2!=""){order_content_div2.style.display="block";  document.getElementById("order_title_div2").style.display="block";order_content_div2.innerHTML = strTemp2;}			
+		}
+		//查看订单详情页面
+		function view_orderdetail() {
+			// var order_detail_divName = document.getElementsByName("order_detail_div");
+			var order_detail_divName = document.getElementsByName("child_div");
+			for (var i = 0; i < order_detail_divName.length; i++) {
+				order_detail_divName[i].addEventListener("tap", function(i) {
+					order_pk = this.firstChild.firstChild.textContent;					
+					mui.openWindow({
+						url: "ordermanager_detail.html",
+						extras: {
+							param: order_pk
+						}
+					});
+				})
+			}
+		}
+		//取消订单
+		function cancel_order(obj) {						
+			var url = request_url + "cancel_order";
+			var cancel_btn = document.getElementsByTagName("button");
+			for (var i = 0; i < cancel_btn.length; i++) {
+				if (cancel_btn[i] == obj) {
+					var order_pk = obj.id;
+					mui.ajax(url, {
+						data: {
+							"user_pk": user_pk,
+							"order_pk": order_pk
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 5000, //超时时间设置为10秒；
+						success: function(response) {
+							console.log(JSON.stringify(response));
+							if (response.result == 0) {
+								mui.toast("取消订单失败");
+							} else {															
+								mui(obj)[0].parentNode.firstChild.innerHTML="已取消";								
+								obj.remove(); 
+								mui.toast("取消订单成功");
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+						}
+					});
+				} else {
+					return;
+				}
+			}
+		}
+		//评分订单
+		function pingfen_order() {
+			/////////todo
+		}
+		//订单付款
+		function pay_order(obj) {
+			var url = request_url + "get_pay_info&order_pk=" + obj.id;
+			var pay_btn = document.getElementsByTagName("button");
+			for (var i = 0; i < pay_btn.length; i++) {
+				var order_pk = obj.id;
+				console.log("order_pk==" + order_pk);
+				if (pay_btn[i] == obj) {
+					var btnArray = [{
+						title: "账户余额"
+					},{
+						title: descriptions[0]
+					}, {
+						title: descriptions[1]
+					}];
+					plus.nativeUI.actionSheet({
+						title: "选择充值方式",
+						cancel: "取消",
+						buttons: btnArray
+					}, function(e) {
+						var index = e.index;
+						switch (index) {
+							case 0:
+								break;
+							case 1:
+								balance_pay(order_pk);
+								break;
+							case 2:							
+								pay(ids[0], order_pk);
+								break;
+							case 3:
+								pay(ids[1], order_pk);
+								break;
+						}
+					});
+				} else {
+					return;
+				}			
+			}
+		}
+		var pays = {};
+		var descriptions = {};
+		var ids = {};
+
+		function plusReady() {
+			// 获取支付通道
+			plus.payment.getChannels(function(channels) {
+				for (var i in channels) {
+					var channel = channels[i];
+					pays[channel.id] = channel;
+					ids[i] = channel.id;
+					descriptions[i] = channel.description + "支付";;
+					checkServices(channel);
+				}
+				//				info.innerText = txt;
+			}, function(e) {
+				outLine("获取支付通道失败：" + e.message);
+			});
+		}
+		document.addEventListener('plusready', plusReady, false);
+		// 检测是否安装支付服务
+		function checkServices(pc) {
+			// if (!pc.serviceReady) {
+			// 	var txt = null;
+			// 	switch (pc.id) {
+			// 		case "alipay":
+			// 			txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+			// 			break;
+			// 		default:
+			// 			txt = "系统未安装“" + pc.description + "”服务，无法完成支付，是否立即安装？";
+			// 			break;
+			// 	}
+			// 	plus.nativeUI.confirm(txt, function(e) {
+			// 		if (e.index == 0) {
+			// 			pc.installService();
+			// 		}
+			// 	}, pc.description);
+			// }
+		}
+		var w = null;
+		// 支付
+		function balance_pay(order_pk)
+		{
+		console.log(user_pk);
+			var obj=document.getElementById(order_pk);
+			var url = request_url+"balance_pay"; 
+      			mui.ajax(url,{
+				data:{     
+						   "order_pk": order_pk,
+						   "user_pk":user_pk
+				     },
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:5000,//超时时间设置为5秒；
+				success:function(response){
+						console.log(JSON.stringify(response));
+						if(response.result=="100")
+						{
+							mui(obj)[0].parentNode.firstChild.innerHTML="已完成";								
+							obj.remove(); 
+							mui.toast("支付成功!");
+							
+						}
+						else if(response.result=="-99")
+							mui.toast("余额不足!");
+						else
+							mui.toast("支付失败!");
+					},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log("\n失败$$$$$"+xhr.status+"$$$"+type+"$$$"+errorThrown);
+				}
+			});
+		}
+		function pay(id, order_pk) {
+			console.log(id);
+			var PAYSERVER = request_url + "get_pay_info&user_pk="+user_pk+"&order_pk=" + order_pk;
+			if (w) {
+				return;
+			} //检查是否请求订单中
+			if (id === 'wxpay') {
+				  PAYSERVER = request_url + "get_wx_pay_info&user_pk="+user_pk+"&order_pk=" + order_pk;
+			}
+			console.log("----- 请求支付 -----");
+			var url = PAYSERVER;
+			if (id == 'alipay' || id == 'wxpay') {
+				url += id;
+			} else {
+				plus.nativeUI.alert("不支持此支付通道！", null, "支付");
+				return;
+			}
+			var appid = plus.runtime.appid;
+			if (navigator.userAgent.indexOf('StreamApp') >= 0) {
+				appid = 'Stream';
+			}
+			//			url += '&appid=' + appid + '&total=';
+			w = plus.nativeUI.showWaiting();
+			// 请求支付订单
+			//			var amount = 20;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				switch (xhr.readyState) {
+					case 4:
+						w.close();
+						w = null;
+						if (xhr.status == 200) {
+							console.log("----- 请求订单成功 -----");
+							console.log(xhr.responseText);
+							var order =xhr.responseText;
+//							order='{"appid":"wx4179af8e0ea8a387","partnerid":"1297903501","prepayid":"wx20160108164422009f788d7d0948060121","package":"Sign =WXpay","noncestr":"cd3a1b1ef4184484b9a776b58bb4ad3e","timestamp": "1452242565","sign":"7E9A6857BC581BF563891A424E9F8400"}';
+							plus.payment.request(pays[id], order, function(result) {
+								console.log("----- 支付成功 -----");
+								console.log(JSON.stringify(result));
+								plus.nativeUI.alert("支付成功!", function() {
+									back();
+								}, "支付");
+							}, function(e) {
+								console.log("----- 支付失败 -----");
+								console.log("[" + e.code + "]：" + e.message);
+//								plus.nativeUI.alert(e.message, null, "支付失败：" + e.code);
+							});
+						} else {
+							console.log("----- 请求订单失败 -----");
+							console.log(xhr.status);
+							plus.nativeUI.alert("获取订单信息失败！", null, "支付");
+						}
+						break;
+					default:
+						break;
+				}
+			}
+			xhr.open('GET', url);
+			console.log("请求支付订单：" + url);
+			xhr.send();
+		}
+	</script>
+
+</html>

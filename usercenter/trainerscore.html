@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/start.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+		.wrapper{
+		height:20px;
+		padding:0px;
+		width:150px;
+		margin:10px auto 10px;
+		}
+		.wrapper a{
+			float:left;
+			width:20px;
+			height:20px;
+			background:url(../img/starttwo.png) 0 -20px no-repeat;
+			}
+			* {
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">给专车评分</h1>
+		</header>
+		<div class="mui-content">
+			
+			<div class="mui-content-padded">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+					<li class="mui-table-view-cell">
+						<img src="../img/iconfont-friend.png" width="30px"/>
+						<span>本次订单:马司机</span>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-content-padded">
+		    	<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+							<span style="float: left;">评分:</span>
+							<div id="score_div" class="wrapper">
+								<a class="score_a"></a>
+								<a class="score_a"></a>
+								<a class="score_a"></a>
+								<a class="score_a"></a>
+								<a class="score_a"></a>
+								<span id="span_score" style="margin-left: 10px;"></span>
+							</div>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+							<span>评论:</span>
+							<textarea>aaaa</textarea>							
+					</li>
+				</ul>
+				 <button id="sumbit_score"  class="mui-btn mui-btn-block mui-btn-danger">提交</button>
+		    </div>
+		    
+		</div>
+		
+	</body>
+    <script type="text/javascript">
+    	mui.init();
+    	/**/
+    	var sumbit_score = document.getElementById("sumbit_score");
+    	sumbit_score.addEventListener("tap",function(){
+    		alert("评分成功，感谢您的支持"); 
+            mui.back();
+    	})
+    </script>
+</html>

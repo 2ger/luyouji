@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/customize.css">
+		<script src="js/mui.min.js"></script>
+		<script src="js/navigate.js"></script>
+		<script type="text/javascript" src="js/request_url.js"></script>
+		<style type="text/css">
+			body{ background: #F5F5F5;}
+			.title{
+			  	margin: 35px 15px 10px; 
+			  }
+
+			  .mui-table-view{
+			  	margin-bottom: 20px;
+			  }
+			  .mui-table-view .mui-media-object
+			  {
+					height: 30px;
+				    line-height: 30px; 
+				    font-size: 12px;
+			  }
+			   .mui-table-view-chevron .mui-table-view-cell
+			  {			  	
+			  	background: #F5F5F5;
+			    color: #000000;
+			    
+			  } 
+			  .mui-table-view-cell::after{background: #D6D6D6; width: 91%;}
+			  .mui-navigate-right::after, .mui-push-right::after{content: ""; right: 0;}
+			  .mui-table-view .mui-media-object{ font-size: 14px;}
+			  .mui-table-view::after{ background: transparent;}
+			  .message_state{ display: none; width: 10px; height: 10px; border-radius: 10px; background: red; position: absolute; left: 110px; top: 15px;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="close-btn" class=" mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title">个人中心</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron" style="margin:0px; ">
+				<li class="mui-table-view-cell mui-media" style=" padding:11px 25px 11px 0;">
+					<a id="tx" class="mui-navigate-right" open-type="common" style="background: #EBEBEB;text-align: center;">
+						<div style="border:solid 2px #DD524D; border-radius: 80px;width:80px; height:80px; margin: 0 auto; overflow: hidden;"><img id="setpic_img" class="mui-media-object" src="img/freeride.png"  style="border:none; min-width:80px; min-height:80px;"></div>
+						<div style="clear: both;"></div>
+						<div id="user_info" class="mui-media-body" style="color: #000000; margin: 10px 0 5px ;">
+							&nbsp;
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/recharge.html">
+						<div class="mui-media-object mui-pull-left charge"></div>
+						<span class="mui-media-object">充值中心</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/purse.html">
+						<div class="mui-media-object mui-pull-left money"></div>
+						<span class="mui-media-object">我的钱包</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/modify_phone.html">
+						<div class="mui-media-object mui-pull-left change"></div>
+						<span class="mui-media-object">更改手机号</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/messagesetting.html">
+						<div class="mui-media-object mui-pull-left msg"></div>
+						<span class="mui-media-object">消息中心</span>
+					</a>
+					<div class="message_state"></div>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" >
+						<div class="mui-media-object mui-pull-left sound"></div>
+						<span class="mui-media-object">音效开关</span>
+						
+					</a>
+					<div class="mui-switch mui-switch-mini mui-active ">
+							<div class="mui-switch-handle"></div>
+					</div> 
+				</li>
+				<!--<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/currenttaxi.html">
+						<img class="mui-media-object mui-pull-left" src="img/iconfont-friend.png">
+						<span class="mui-media-object">当前司机</span>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell">
+					<a class="mui-navigate-right " open-type="common" href="usercenter/ordermanager.html">
+						<img class="mui-media-object mui-pull-left" src="img/iconfont-cart.png">
+						<span class="mui-media-object">订单管理</span>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" id="navigate_share" >
+						<img class="mui-media-object mui-pull-left" src="img/iconfont-yaoqinghaoyou.png">
+						<span class="mui-media-object">推荐好友</span>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="usercenter/recharge.html">
+						<img class="mui-media-object mui-pull-left" src="img/iconfont-chongzhi(1).png">
+						<span class="mui-media-object">充值业务</span>
+					</a>
+				</li>-->
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="helpcenter/operation.html">
+						<div class="mui-media-object mui-pull-left help"></div>
+						<span class="mui-media-object">客服与帮助</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="helpcenter/about.html">
+						<div class="mui-media-object mui-pull-left about"></div>
+						<span class="mui-media-object">关于我们</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" open-type="common" href="helpcenter/low.html">
+						<div class="mui-media-object mui-pull-left law"></div>
+						<span class="mui-media-object">法律条款</span>
+					</a>
+				</li>
+				
+				<li class="mui-table-view-cell" >
+					<a class="mui-navigate-right" open-type="common" id="exit_li">
+						<div class="mui-media-object mui-pull-left exit"></div>
+						<span class="mui-media-object">退出登录</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell"></li>
+			</ul>
+
+		</div>
+
+	</body>
+	<script>
+		mui.init();
+		
+		mui.plusReady(function() {			
+			mui('.mui-switch').each(function() { 				
+				if(plus.storage.getItem("YINXIAO")=="1") this.className="mui-switch mui-switch-mini"; 
+				this.addEventListener('toggle', function(event) {
+					//event.detail.isActive 可直接获取当前状态
+					plus.storage.setItem("YINXIAO",event.detail.isActive?"0":"1"); 					
+				});
+			});
+			//get_pop_link();
+			get_massage_state();
+			var user_info = document.getElementById("user_info");
+			var student_real_name = plus.storage.getItem('student_real_name');
+			var student_phone = plus.storage.getItem('student_phone');
+			console.log(student_real_name + "===" + student_phone);
+			//if (student_real_name != null) {
+				user_info.innerHTML = student_phone;
+			//} else {
+				//user_info.textContent = student_phone;
+			//}
+			//设置图像 
+			var user_pic = plus.storage.getItem('user_pic');
+			if (user_pic != null) {
+				var setpic_img = document.getElementById("setpic_img");
+				setpic_img.src = user_pic;
+			}
+			document.getElementById("close-btn").addEventListener("click",function(){ 
+				plus.webview.currentWebview().close();
+			});
+//			document.getElementById("user_info").addEventListener("click",function(){
+//	 			mui.openWindow({
+//		    	 	id:"modifyname",
+//		    	 	url:"usercenter/modify_username.html"
+//		    	 })
+//			});
+			//获取推广链接
+//				function get_pop_link() {
+//					var url = request_url + "get_pop_link";
+//					var user_pk = plus.storage.getItem('user_pk');
+//					console.log("user_pk===" + user_pk);
+//					mui.ajax(url, { 
+//						data: {
+//							"user_pk": user_pk
+//						},
+//						dataType: 'json', //服务器返回json格式数据
+//						type: 'post', //HTTP请求类型
+//						timeout: 5000, //超时时间设置为10秒；
+//						success: function(response) {
+//							sharehref = "http://www.qidiancar.com" + response.result;
+//							console.log(sharehref);
+//						},
+//						error: function(xhr, type, errorThrown) {
+//							//异常处理；
+//							console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+//						}
+//					});
+//				}
+		
+		});
+//		var navigate_share = document.getElementById("navigate_share");
+//			navigate_share.addEventListener("tap", function() {
+//				 shareShow();
+//			}); 
+		function get_massage_state()
+		{
+			var url = request_url + "get_message_state";
+			var user_pk = plus.storage.getItem('user_pk');					
+			mui.ajax(url, { 
+				data: {
+					"user_pk": user_pk
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 5000, //超时时间设置为10秒；
+				success: function(response) {
+					
+					if(parseInt(response.result)>0)
+					{
+						mui(".message_state")[0].style.display="block";
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+				}
+			});
+		}
+		/*退出按钮事件*/
+		var exit_li = document.getElementById("exit_li");
+		exit_li.addEventListener("tap", function() {
+			plus.storage.setItem("islogin", "0");
+			mui.back();
+		});
+		
+		document.getElementById("setpic_img").addEventListener("click",function(){
+			var a = [{
+				title: "拍照"
+			}, {
+				title: "从手机相册选择"
+			}];
+			plus.nativeUI.actionSheet({
+				title: "修改头像",
+				cancel: "取消",
+				buttons: a
+			}, function(b) {
+				switch (b.index) {
+					case 0:
+						break;
+					case 1:
+						getImage();
+						break;
+					case 2:
+						galleryImg();
+						break;
+					default:
+						break
+				}
+			})
+		});
+		function getImage() {
+			var c = plus.camera.getCamera();
+			c.captureImage(function(e) {
+				plus.io.resolveLocalFileSystemURL(e, function(entry) {
+					var path = entry.toLocalURL() + "?version=" + new Date().getTime();
+					console.log(path);
+					plus.storage.setItem("user_pic",path);
+					document.getElementById("setpic_img").src = path;
+					//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+					document.querySelector("#__mui-imageview__group .mui-slider-item img").src = path + "?version=" + new Date().getTime();;;
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+			}, function(path) {
+				console.log("error" + path);
+			}, {
+				filename: "_doc/head.jpg"
+			})
+		}
+		function galleryImg() {
+			plus.gallery.pick(function(a) {
+				plus.io.resolveLocalFileSystemURL(a, function(entry) {
+					plus.io.resolveLocalFileSystemURL("_doc/", function(root) {
+						root.getFile("head.jpg", {}, function(file) {
+							//文件已存在
+							file.remove(function() {
+								console.log("file remove success");
+								entry.copyTo(root, 'head.jpg', function(e) {
+										var path = e.fullPath + "?version=" + new Date().getTime();
+										plus.storage.setItem("user_pic",path);
+										document.getElementById("setpic_img").src = path;
+										//变更大图预览的src
+										//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+										document.querySelector("#__mui-imageview__group .mui-slider-item img").src = path + "?version=" + new Date().getTime();;
+									},
+									function(e) {
+										console.log('copy image fail:' + e.message);
+									});
+							}, function() {
+								console.log("delete image fail:" + e.message);
+							});
+						}, function() {
+							//文件不存在
+							entry.copyTo(root, 'head.jpg', function(e) {
+									var path = e.fullPath + "?version=" + new Date().getTime();
+									plus.storage.setItem("user_pic",path);
+									document.getElementById("setpic_img").src = path;
+									//变更大图预览的src
+									//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+									document.querySelector("#__mui-imageview__group .mui-slider-item img").src = path;
+								},
+								function(e) {
+									console.log('copy image fail:' + e.message);
+								});
+						});
+					}, function(e) {
+						console.log("get _www folder fail");
+					})
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+			}, function(a) {}, {
+				filter: "image"
+			})
+		};
+
+	</script>
+
+</html>
