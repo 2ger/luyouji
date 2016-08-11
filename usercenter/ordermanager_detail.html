@@ -220,6 +220,7 @@
 						type: 'post', //HTTP请求类型
 						timeout: 5000, //超时时间设置为5秒；
 						success: function(response) {
+							console.log(order_pk);
 							if (parseInt(response.result || 0) > 0) {
 								mui.toast("感谢您的反馈！");
 								document.getElementById("div_pingjia").style.display = "none";

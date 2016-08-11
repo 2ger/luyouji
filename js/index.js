@@ -1,5 +1,5 @@
 		var islogin1 = 0;
-		var car_type=1;// 
+		var car_type=0;// 
 		mui.init();		
 //		mui(".mui-title div span").each(function(){			
 //			this.addEventListener('tap', function(e) {
@@ -115,7 +115,7 @@
 						console.log(rsp);
 //						if(parseInt(rsp.result)==0) //留单功能
 //						{
-							if(car_type==1)
+							if(car_type==0)
 							{								
 								plus.storage.setItem('date_type', "2");
 								mui.openWindow({

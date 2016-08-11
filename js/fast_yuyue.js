@@ -31,7 +31,7 @@
 			});
 		})(mui);
 		var dateType = 0; //选择租期，用于判断计算费用公里数
-		var carType = 2; //选择车型，用于判断计算费用公里数
+		var carType = 3; //选择车型，用于判断计算费用公里数  3电动车
 		var return_result = "";
 		/*获取经纬度信息*/
 		var start_lon = "";
@@ -52,6 +52,7 @@
 				console.log(JSON.stringify(rsp));
 				return_result = rsp;
 				car_pk= return_result.Table[2].car_pk;
+				console.log(car_pk);
 				/* 设置专车 名字、图片、车类型 套餐价 */
 				init_carinfo();
 			});
@@ -131,25 +132,25 @@
 				if (radios[i].checked) {					
 					//单选按钮的值   
 					if (("0" == radios[i].value)) {
-						carType = 0;
+						carType = 3;
 						init_packageinfo(3);
 						far_costmoney(3);
 						//电动车
 						car_pk = return_result.Table[3].car_pk;
 					} else if ("1" == radios[i].value) {
-						carType = 1;
+						carType = 2;
 						init_packageinfo(2);
 						far_costmoney(2);
 						//三轮车
 						car_pk = return_result.Table[2].car_pk;
 					} else if ("2" == radios[i].value) {
-						carType = 2;
+						carType = 1;
 						init_packageinfo(1);
 						far_costmoney(1); 
 						//出租车
 						car_pk = return_result.Table[1].car_pk;
 					}else if ("3" == radios[i].value) {
-						carType = 3;
+						carType = 0;
 						init_packageinfo(0);
 						far_costmoney(0); 
 						//货车
