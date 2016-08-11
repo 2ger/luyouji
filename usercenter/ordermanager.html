@@ -148,10 +148,15 @@
 			for (var i = 0; i < result.Table.length; i++) { //0 快车 1 专车
 				var order_type = result.Table[i].order_type;
 				order_pk = result.Table[i].order_pk;
+				console.log(result.Table[i].order_pk);
 				if (0 == order_type) {
-					strBtn = "快车";
+					strBtn = "货车";
 				} else if (1 == order_type) {
-					strBtn = "专车";
+					strBtn = "出租车/私家车";
+				} else if (2 == order_type) {
+					strBtn = "三轮车";
+				} else if (3 == order_type) {
+					strBtn = "电动车";
 				} 
 				
 				strDate = result.Table[i].order_datetime;																			
@@ -170,7 +175,8 @@
 			var order_detail_divName = document.getElementsByName("child_div");
 			for (var i = 0; i < order_detail_divName.length; i++) {
 				order_detail_divName[i].addEventListener("tap", function(i) {
-					order_pk = this.firstChild.firstChild.textContent;					
+					order_pk = this.firstChild.firstChild.textContent;		
+					console.log(order_pk);
 					mui.openWindow({
 						url: "ordermanager_detail.html",
 						extras: {

@@ -1,0 +1,118 @@
+{
+	"index2.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/common.css",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"img/index_left_fresh_manual.png",
+			"js/common.js",
+			"js/request_url.js",
+			"fonts/mui.ttf",
+			"img/telephone_icon@2x_09.png",
+			"img/icon_lw_blue.png",
+			"img/send.png",
+			"js/index.js",
+			"img/iconfont-chongzhi(2).png"
+		],
+		"refer": [
+			"usercenter/ordermanager.html",
+			"setting_menu.html",
+			"login/login.html",
+			"choose_position.html",
+			"fast_yuyue.html",
+			"choose_endposition.html",
+			"usercenter/ordermanager_detail.html"
+		]
+	},
+	"setting_menu.html": {
+		"resources": [
+			"img/freeride.png",
+			"css/customize.css",
+			"js/request_url.js",
+			"img/sprite.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/navigate.js"
+		],
+		"refer": [
+			"helpcenter/operation.html"
+		]
+	},
+	"usercenter/ordermanager.html": {
+		"resources": [
+			"js/request_url.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"usercenter/ordermanager_detail.html"
+		]
+	},
+	"usercenter/ordermanager_detail.html": {
+		"resources": [
+			"img/telephone_icon@2x_12.png",
+			"img/freeride.png",
+			"img/star_icon@2x_22.png",
+			"img/star_icon@2x_11.jpg",
+			"js/common.js",
+			"img/star_icon@2x_12.jpg",
+			"img/chat_icon@2x_10.png",
+			"js/request_url.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"img/star_icon@2x_15.jpg"
+		]
+	},
+	"helpcenter/operation.html": {
+		"resources": [
+			"js/common.js",
+			"img/telephone_icon@2x_09.png"
+		]
+	},
+	"choose_position.html": {
+		"resources": [
+			"img/iconfont-wujiaoxing.png",
+			"img/markers.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
+		]
+	},
+	"fast_yuyue.html": {
+		"resources": [
+			"css/mui.dtpicker.css",
+			"js/mui.listpicker.js",
+			"js/fast_yuyue.js",
+			"css/mui.listpicker.css",
+			"js/mui.dtpicker.js",
+			"img/freeride.png",
+			"js/common.js",
+			"js/request_url.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"pricedetail.html",
+			"usercenter/ordermanager.html"
+		]
+	},
+	"choose_endposition.html": {
+		"resources": [
+			"js/mui.min.js",
+			"img/iconfont-wujiaoxing.png",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"img/markers.png"
+		]
+	},
+	"pricedetail.html": {
+		"resources": [
+			"img/iconfont-yue.png"
+		]
+	}
+}

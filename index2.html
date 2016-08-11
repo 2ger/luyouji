@@ -147,7 +147,7 @@
 			#order_div_2>div>botton,#order_div_3>div>botton{ line-height: 40px; padding: 6px 10px; background: #EBE9EA; color: #918F90; }
 			#order_div_3>div>img{ width: 28px;margin-left: 15px;}
 			#order_div_3>div{width:100%; text-align: center; line-height: 46px;}
-			#order_div_4>div,#order_div_5>div{width:100%; text-align: center; line-height: 90px; }
+			#order_div_4>div,#order_div_5>div{width:100%; text-align: center; line-height: 20px; }
 			#order_div_5>div>botton{ line-height: 40px; padding: 6px 10px; background: #FF0066; color: #fff;border-radius: 5px; }
 		</style>
 	</head>
@@ -285,13 +285,14 @@
 		</button></a>
 		    </div>
 				
-			</div>
-			<nav class="mui-bar-tab bar_transparent" id="order_div_2">
-				<div>此次行程预计<span id="order_yj_fee"></span>元</div>
-				<div>正在为您调度服务车辆</div>
-				<div>
-					<botton id="cancel_order">取消订单</botton>
-				</div>
+			</div><nav class="mui-bar-tab bar_transparent" id="order_div_5">
+				<div>已到达目的地，共计<span id="order_fee">0</span>元 等待司机确认</div>
+				<!--<div>
+					<botton id="down_car">确认收货</botton>
+				</div>-->
+			</nav>
+			<nav class="mui-bar-tab bar_transparent" id="order_div_4">
+				<div>正在送货 <br>已行驶<span id="al_away">0</span>公里，<span id="al_fee">0</span>元</div>				
 			</nav>
 			<nav class="mui-bar-tab bar_transparent" id="order_div_3">
 				<div><span id="coach_info">*****</span>正在前往<img align="absmiddle" id="call_coach" src="img/telephone_icon@2x_09.png"></div>			
@@ -299,17 +300,14 @@
 					<botton id="cancel_order_1">取消订单</botton>
 				</div>
 			</nav>
-			<nav class="mui-bar-tab bar_transparent" id="order_div_4">
-				<div>正在送货</div>				
-				<div>已行驶<span id="al_away">0</span>公里，<span id="al_fee">0</span>元</div>				
+			<nav class="mui-bar-tab bar_transparent" id="order_div_2">
+				<div>此次行程预计<span id="order_yj_fee"></span>元</div>
+				<div>正在为您调度服务车辆</div>
+				<div>
+					<botton id="cancel_order">取消订单</botton>
+				</div>
 			</nav>
-			<nav class="mui-bar-tab bar_transparent" id="order_div_5">
-				<div>您的货物已到达目的地，共计<span id="order_fee">0</span>元</div>	
-				<div>等待司机确认</div>
-				<!--<div>
-					<botton id="down_car">确认下车</botton>
-				</div>-->
-			</nav>
+			
 		</div>
 
 <!-- AD BANNER -->
