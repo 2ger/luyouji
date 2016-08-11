@@ -456,6 +456,17 @@ console.log('222');
 							document.getElementById("payorder").style.display="block";
 							document.getElementById("zzc").style.display="block"; 
 			}
+			//已付后
+			function has_unpay_ed(){
+							mui(".mui-content")[0].style.display="block";
+							document.getElementById("payorder").style.display="none";
+							document.getElementById("zzc").style.display="none"; 
+							document.getElementById("order_div_1").style.display="block";
+							document.getElementById("order_div_2").style.display="none";
+							document.getElementById("order_div_3").style.display="none";
+							document.getElementById("order_div_4").style.display="none";
+							document.getElementById("order_div_5").style.display="none"; 
+			}
 			
 //		window.setTimeout("get_user_order_info()", 5000);//重复获取信息 测试用
 			
@@ -557,6 +568,7 @@ console.log('222');
 							plus.storage.setItem('unpay_order',response.Table[0].order_pk);
 							has_unpay();
 							console.log('订单状态:6  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
+							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 						}
 						else{
 							mui(".mui-content")[0].style.display="block";
@@ -748,18 +760,20 @@ console.log('222');
 		}
 		//订单付款
 		function pay_order(order_pk) {
+			var user_pk =plus.storage.getItem('user_pk');
+			console.log(user_pk);
 			if(order_pk == "" || order_pk == undefined){
 				order_pk = plus.storage.getItem('unpay_order');
 			}
 			console.log(order_pk)
 			var url = request_url + "get_pay_info&order_pk=" + order_pk;		
 			var btnArray = [{
-				title: descriptions[0]
+				title: '余额支付'
 			}, {
-				title: descriptions[1]
+				title: descriptions[0]
 			}];
 			plus.nativeUI.actionSheet({
-				title: "选择充值方式",
+				title: "选择支付方式",
 				cancel: "取消",
 				buttons: btnArray
 			}, function(e) {
@@ -767,8 +781,10 @@ console.log('222');
 				switch (index) {
 					case 0:
 						break;					
-					case 1:							
-						pay(ids[0], order_pk);
+					case 1:		
+						console.log('余额支付'+ids[0]); 
+						userpay(user_pk,order_pk);
+						//pay(ids[0], order_pk);
 						break;
 					case 2:
 						pay(ids[1], order_pk);
@@ -781,7 +797,38 @@ console.log('222');
 		var pays = {};
 		var descriptions = {};
 		var ids = {};
-
+		
+		//余额支付
+		function userpay(user_pk,order_pk){
+			var url = request_url + "balance_pay";
+						mui.ajax(url, {
+							data: {							
+								"order_pk": order_pk,	
+								"user_pk": user_pk
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 5000, //超时时间设置为10秒；
+							success: function(response) {	
+								console.log(response.result);
+								if(parseInt(response.result)==100) 
+							{
+								plus.nativeUI.alert("支付成功!", function() {
+									updateOrder(order_pk,4);//更新订单
+									has_unpay_ed();
+									get_user_order_info();//刷新页面 
+									
+								}, "支付");
+							}else if(parseInt(response.result)==-99){
+								plus.nativeUI.alert("余额不足！", null, "支付");
+							}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
+							}
+						});	
+		}
 		function plusReady() {
 			// 获取支付通道
 			plus.payment.getChannels(function(channels) {
