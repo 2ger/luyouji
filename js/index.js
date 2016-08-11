@@ -509,7 +509,7 @@ console.log('222');
 							document.getElementById("order_div_3").style.display="block";
 							document.getElementById("order_div_2").style.display="none";
 							var coach_car_number = response.Table[0].coach_car_number;
-							coach_car_number = coach_car_number.substring(0, 1) + "*****";							
+							coach_car_number = coach_car_number;							
 							document.getElementById("coach_info").innerHTML=response.Table[0].coach_name + "•" + coach_car_number;
 							document.getElementById("call_coach").setAttribute("coach_phone",response.Table[0].coach_phone);	
 							document.getElementById("cancel_order_1").setAttribute("order_pk",response.Table[0].order_pk);
