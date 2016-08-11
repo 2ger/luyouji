@@ -12,7 +12,8 @@
 			"img/telephone_icon@2x_09.png",
 			"img/icon_lw_blue.png",
 			"img/send.png",
-			"js/index.js"
+			"js/index.js",
+			"img/iconfont-chongzhi(2).png"
 		],
 		"refer": [
 			"usercenter/ordermanager.html",
@@ -20,7 +21,8 @@
 			"login/login.html",
 			"choose_position.html",
 			"fast_yuyue.html",
-			"choose_endposition.html"
+			"choose_endposition.html",
+			"usercenter/ordermanager_detail.html"
 		]
 	},
 	"setting_menu.html": {

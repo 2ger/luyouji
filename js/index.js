@@ -457,11 +457,12 @@ console.log('222');
 							document.getElementById("zzc").style.display="block"; 
 			}
 			
-		//window.setTimeout("get_user_order_info()", 2000);//重复获取信息 测试用
+//		window.setTimeout("get_user_order_info()", 5000);//重复获取信息 测试用
 			
 		//获取用户订单状态
 		function get_user_order_info()
 		{
+			console.log('获得订单用户信息');
 			var user_pk = plus.storage.getItem('user_pk');	
 			var url = request_url + "get_user_order_info";
 			mui.ajax(url, {
@@ -477,16 +478,25 @@ console.log('222');
 						console.log(response.Table[0].order_state);
 						if(response.Table[0].order_state=="0")
 						{
+							document.getElementById("order_div_5").style.display="none";
+							document.getElementById("order_div_4").style.display="none";
+							document.getElementById("order_div_3").style.display="none";
 							document.getElementById("order_div_2").style.display="block";
 							document.getElementById("order_yj_fee").innerHTML=response.Table[0].order_fee;
 							document.getElementById("cancel_order").setAttribute("order_pk",response.Table[0].order_pk);	
 							
 							plus.storage.setItem('unpay_order',response.Table[0].order_pk);
 							console.log('订单状态:0  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
+							 
+							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 						}
 						else if(response.Table[0].order_state=="1")
 						{
+							
+							document.getElementById("order_div_5").style.display="none";
+							document.getElementById("order_div_4").style.display="none";
 							document.getElementById("order_div_3").style.display="block";
+							document.getElementById("order_div_2").style.display="none";
 							var coach_car_number = response.Table[0].coach_car_number;
 							coach_car_number = coach_car_number.substring(0, 1) + "*****";							
 							document.getElementById("coach_info").innerHTML=response.Table[0].coach_name + "•" + coach_car_number;
@@ -499,11 +509,15 @@ console.log('222');
 								outLine("播放音频文件\"" + url + "\"失败：" + e.message);
 							});
 					
-							console.log('订单状态:111');
+							console.log('订单状态:1');
+							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 						}
 						else if(response.Table[0].order_state=="2")
 						{
+							document.getElementById("order_div_5").style.display="none";
 							document.getElementById("order_div_4").style.display="block";
+							document.getElementById("order_div_3").style.display="none";
+							document.getElementById("order_div_2").style.display="none";
 							document.getElementById("al_away").innerHTML=parseFloat(response.Table[0].order_away || 0);
 							document.getElementById("al_fee").innerHTML=parseFloat(response.Table[0].order_fee || 0);
 							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
@@ -512,21 +526,30 @@ console.log('222');
 						else if(response.Table[0].order_state=="3")
 						{
 							document.getElementById("order_div_5").style.display="block";
+							document.getElementById("order_div_4").style.display="none";
+							document.getElementById("order_div_3").style.display="none";
+							document.getElementById("order_div_2").style.display="none";
 							//document.getElementById("down_car").setAttribute("order_pk",response.Table[0].order_pk);
+							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 							document.getElementById("order_fee").innerHTML=response.Table[0].order_fee;								
 							console.log('订单状态:3');
 						}
-						else if(response.Table[0].order_state=="4" && tj)
+						else if(response.Table[0].order_state=="4") // && tj
 						{
 							tj=false;
+							
+							document.getElementById("order_div_5").style.display="none";
+							document.getElementById("order_div_4").style.display="none";
+							document.getElementById("order_div_3").style.display="none";
+							document.getElementById("order_div_2").style.display="none";
 							document.getElementById("order_div_1").style.display="block";	
 							mui.openWindow({
 								url: "usercenter/ordermanager_detail.html",
 								extras: {
 									param: response.Table[0].order_pk
 								}
-							});					
-							console.log('订单状态:4');
+							});				
+							console.log('订单状态:4  '+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
 						}else if(response.Table[0].order_state=="6")
 						{ //需用户支付 
 							document.getElementById("order_money").value=response.Table[0].order_fee;
@@ -534,7 +557,6 @@ console.log('222');
 							plus.storage.setItem('unpay_order',response.Table[0].order_pk);
 							has_unpay();
 							console.log('订单状态:6  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
-						
 						}
 						else{
 							mui(".mui-content")[0].style.display="block";
@@ -542,7 +564,7 @@ console.log('222');
 							document.getElementById("zzc").style.display="none"; 
 							
 							document.getElementById("order_div_1").style.display="block";
-							console.log('订单状态>6:'+response.Table[0].order_state+'  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
+							console.log('订单状态>6:'+response.Table[0].order_state+'  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee); 
 						
 						} 
 					}

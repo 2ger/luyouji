@@ -147,8 +147,8 @@
 			
 			for (var i = 0; i < result.Table.length; i++) { //0 快车 1 专车
 				var order_type = result.Table[i].order_type;
-				order_pk = result.Table[i].car_pk;
-				console.log(result.Table[i].order_type);
+				order_pk = result.Table[i].order_pk;
+				console.log(result.Table[i].order_pk);
 				if (0 == order_type) {
 					strBtn = "货车";
 				} else if (1 == order_type) {
@@ -175,7 +175,8 @@
 			var order_detail_divName = document.getElementsByName("child_div");
 			for (var i = 0; i < order_detail_divName.length; i++) {
 				order_detail_divName[i].addEventListener("tap", function(i) {
-					order_pk = this.firstChild.firstChild.textContent;					
+					order_pk = this.firstChild.firstChild.textContent;		
+					console.log(order_pk);
 					mui.openWindow({
 						url: "ordermanager_detail.html",
 						extras: {

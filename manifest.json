@@ -857,7 +857,8 @@
 					"choose_endposition.html",
 					"fast_yuyue.html",
 					"usercenter/ordermanager.html",
-					"setting_menu.html"
+					"setting_menu.html",
+					"usercenter/ordermanager_detail.html"
 				],
 				"priority": 0
 			},

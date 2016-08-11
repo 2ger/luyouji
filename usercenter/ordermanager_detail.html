@@ -203,6 +203,7 @@
 		var input_score = document.getElementById("score");
 		mui.plusReady(function() {
 			order_pk = plus.webview.currentWebview().param;
+			console.log(order_pk);
 			//调用提交处理函数
 			get_orderdetail();
 			document.getElementById("btn_pingjia").addEventListener('tap', function(e) {
@@ -257,6 +258,8 @@
 				type: 'post', //HTTP请求类型
 				timeout: 5000, //超时时间设置为5秒；
 				success: function(response) {
+					console.log(order_pk);
+					console.log(JSON.stringify(response));
 					if (response.Table[0].coach_pk != "" && response.Table[0].coach_phone != "") {
 						document.getElementById("coach_info").style.display = "block";
 						if (response.Table[0].order_state == "4")
