@@ -149,16 +149,15 @@
 				var order_type = result.Table[i].order_type;
 				order_pk = result.Table[i].order_pk;
 				console.log(result.Table[i].order_pk);
-				if (0 == order_type) {
+                if (0 == order_type) {
 					strBtn = "货车";
 				} else if (1 == order_type) {
-					strBtn = "出租车/私家车";
-				} else if (2 == order_type) {
 					strBtn = "三轮车";
-				} else if (3 == order_type) {
+				}else if (2 == order_type) {
+					strBtn = "出租车/私家车";
+				}  else if (3 == order_type) {
 					strBtn = "电动车";
 				} 
-				
 				strDate = result.Table[i].order_datetime;																			
 				str_startAddr = result.Table[i].start_address;
 				str_endAddr = result.Table[i].end_address;

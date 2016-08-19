@@ -168,12 +168,12 @@ console.log('222');
 					success: function(rsp) {								
 						if(parseInt(rsp.result)==100) 
 						{
-							// var btnArray = ['更新', '取消'];
-							// mui.confirm('系统有更新，立即更新？', '系统提示', btnArray, function(e) {
-							// 	if (e.index == 0) {
-							// 		plus.runtime.openURL(request_img_url+"down.aspx");									
-							// 	} 
-							// });
+							 var btnArray = ['更新', '取消'];
+							 mui.confirm('系统有更新，立即更新？', '系统提示', btnArray, function(e) {
+							 	if (e.index == 0) {
+							 		plus.runtime.openURL(request_img_url+"down.aspx");									
+							 	} 
+							 });
 						}						
 					}
 				});				
@@ -358,7 +358,7 @@ console.log('222');
 				});
 				
 				
-				plus.push.setAutoNotification(false);
+				plus.push.setAutoNotification(true);
 				var info = plus.push.getClientInfo();
 				plus.storage.setItem("clientid", info.clientid);
 				plus.storage.setItem("appid", info.appid);
@@ -469,7 +469,8 @@ console.log('222');
 			}
 			
 //		window.setTimeout("get_user_order_info()", 5000);//重复获取信息 测试用
-			
+		
+		var hasplay =0;
 		//获取用户订单状态
 		function get_user_order_info()
 		{
@@ -489,6 +490,7 @@ console.log('222');
 						console.log(response.Table[0].order_state);
 						if(response.Table[0].order_state=="0")
 						{
+							hasplay =0;
 							document.getElementById("order_div_5").style.display="none";
 							document.getElementById("order_div_4").style.display="none";
 							document.getElementById("order_div_3").style.display="none";
@@ -514,11 +516,14 @@ console.log('222');
 							document.getElementById("call_coach").setAttribute("coach_phone",response.Table[0].coach_phone);	
 							document.getElementById("cancel_order_1").setAttribute("order_pk",response.Table[0].order_pk);
 							
-							plus.device.beep( 1 );
-							var p = plus.audio.createPlayer("img/souli.mp3");//neworder
-								p.play(function() {}, function(e) {//订单已受理
-								outLine("播放音频文件\"" + url + "\"失败：" + e.message);
-							});
+							if(!hasplay){
+								hasplay =1; 
+								plus.device.beep( 1 );
+								var p = plus.audio.createPlayer("img/souli.mp3");//neworder
+									p.play(function() {}, function(e) {//订单已受理
+									outLine("播放音频文件\"" + url + "\"失败：" + e.message);
+								});
+							}
 					
 							console.log('订单状态:1');
 							//window.setTimeout("get_user_order_info()", 2000); //重复获取信息
@@ -541,7 +546,7 @@ console.log('222');
 							document.getElementById("order_div_3").style.display="none";
 							document.getElementById("order_div_2").style.display="none";
 							//document.getElementById("down_car").setAttribute("order_pk",response.Table[0].order_pk);
-							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
+						//	window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 							document.getElementById("order_fee").innerHTML=response.Table[0].order_fee;								
 							console.log('订单状态:3');
 						}
@@ -568,7 +573,7 @@ console.log('222');
 							plus.storage.setItem('unpay_order',response.Table[0].order_pk);
 							has_unpay();
 							console.log('订单状态:6  订单号：'+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
-							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
+						//	window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 						}
 						else{
 							mui(".mui-content")[0].style.display="block";
@@ -588,6 +593,8 @@ console.log('222');
 					console.log("\n失败$$$$$" + xhr.status + "$$$" + type + "$$$" + errorThrown);
 				}
 			});
+			
+		window.setTimeout("get_user_order_info()", 2000);//重复获取信息
 		}
 		
 		//获取司机列表
@@ -878,7 +885,7 @@ console.log('222');
 							type: 'post', //HTTP请求类型
 							timeout: 5000, //超时时间设置为10秒；
 							success: function(response) {	
-								
+								has_unpay_ed();
 							},
 							error: function(xhr, type, errorThrown) {
 								//异常处理；
