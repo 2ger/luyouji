@@ -70,12 +70,12 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">寄货点</h1>
+			<h1 class="mui-title">发货点</h1>
 			<a  class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
 		</header>
 		<div class="mui-content">
 			<div id="r-result" style="padding: 10px;">
-				<input type="text" id="suggestId" size="20" value="" style="width:100%;" placeholder="输入或选择寄货点" />
+				<input type="text" id="suggestId" size="20" value="" style="width:100%;" placeholder="输入或选择发货点" />
 			</div>
 			
 			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:100%;height:100px; display:none;"></div>
@@ -87,9 +87,9 @@
 		<div id="map_result_img" style="position: absolute;bottom: 50px;">
 			<img src="img/markers.png" style="width: 20px;height: 30px;" />
 		</div>
-		<div id="back_current_position" style="position: absolute;bottom: 10px;">
+<!-- 		<div id="back_current_position" style="position: absolute;bottom: 10px;">
 			<img src="img/iconfont-wujiaoxing.png" width="50px" />
-		</div>
+		</div> -->
 	</body>
 	<script type="text/javascript">
 		//定义保存在用户端显示司机位置信息的数组
@@ -156,7 +156,7 @@ console.log(addComp.province);
 //								plus.storage.setItem("choose_start_postion", currentStreet + "&" + mPoint.lat + "&" + mPoint.lng);
 //							}
 							currentStreet=rsp.result.pois[3].addr+rsp.result.pois[3].name;
-							document.getElementById("map_result").innerHTML = "<lable style='color: darkgreen;font-weight: 900;'>寄货点：</lable> " + currentStreet + " <lable style='color: darkgreen;font-weight: 900;'></lable>";							
+							document.getElementById("map_result").innerHTML = "<lable style='color: darkgreen;font-weight: 900;'>发货点：</lable> " + currentStreet + " <lable style='color: darkgreen;font-weight: 900;'></lable>";							
 							plus.storage.setItem("choose_start_postion", currentStreet + "&" + mPoint.lat + "&" + mPoint.lng);
 						}
 					});

@@ -156,8 +156,8 @@
 		<div class="mui-content">
 			<nav class="mui-bar-tab bar_transparent" id="order_div_1" style="display: block;"> 		
 				<div class="address">
-					<input id="start_address" readonly="readonly" class="start_address" placeholder="输入或选择乘车地点" />
-					<input id="end_address" readonly="readonly" class="end_address" placeholder="输入或选择目的地" />
+					<input id="start_address" readonly="readonly" class="start_address" placeholder="输入或选择发货地点" />
+					<input id="end_address" readonly="readonly" class="end_address" placeholder="输入或选择收货地点" />
 				</div>
 				<div id="fastdate_car" class="araw">
 					<img src="img/araw.png">
@@ -203,9 +203,9 @@
 		<div id="map_result_img" style="position: absolute;">
 			<img src="img/markers.png" style="width: 20px;height: 30px;" />
 		</div>
-		<div id="back_current_position" style="position: absolute;bottom: 100px;">
+<!-- 		<div id="back_current_position" style="position: absolute;bottom: 100px;">
 			<img src="img/iconfont-wujiaoxing.png" width="50px" />
-		</div>
+		</div> -->
 		<div id="allmap" style="display:none"></div>
 	</body>
 
@@ -282,12 +282,12 @@
 			} else {	
 				if(document.getElementById("start_address").value=="")
 				{
-					mui.toast("请输入或选择乘车地点");
+					mui.toast("请输入或选择发货地点");
 					return false;
 				}
 				if(document.getElementById("end_address").value=="")
 				{
-					mui.toast("请输入或选择目的地");
+					mui.toast("请输入或选择收货地点");
 					return false;
 				}
 				var url = request_url + "get_user_order_state";

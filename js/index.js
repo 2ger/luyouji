@@ -94,12 +94,12 @@
 			} else {	
 				if(document.getElementById("start_address").value=="")
 				{
-					mui.toast("请输入或选择乘车地点");
+					mui.toast("请输入或选择发货地点");
 					return false;
 				}
 				if(document.getElementById("end_address").value=="")
 				{
-					mui.toast("请输入或选择目的地");
+					mui.toast("请输入或选择收货地点");
 					return false;
 				}
 				var url = request_url + "get_user_order_state";
@@ -222,7 +222,7 @@ console.log('222');
 				{
 					document.getElementById("start_address").value = strTmp.split('&')[0];
 					plus.storage.setItem("start_postion", strTmp);	
-					document.getElementById("map_result").innerHTML="<lable style='color: darkgreen;font-weight: 900;'>寄货点：</lable> " + strTmp.split('&')[0] + " <lable style='color: darkgreen;font-weight: 900;'></lable>";	
+					document.getElementById("map_result").innerHTML="<lable style='color: darkgreen;font-weight: 900;'>发货点：</lable> " + strTmp.split('&')[0] + " <lable style='color: darkgreen;font-weight: 900;'></lable>";	
 					var eePoint = new BMap.Point(parseFloat(strTmp.split('&')[2]), parseFloat(strTmp.split('&')[1]));
 					map.centerAndZoom(eePoint,map.getZoom());
 				}
@@ -521,7 +521,7 @@ console.log('222');
 							});
 					
 							console.log('订单状态:1');
-							window.setTimeout("get_user_order_info()", 2000);//重复获取信息
+							//window.setTimeout("get_user_order_info()", 2000); //重复获取信息
 						}
 						else if(response.Table[0].order_state=="2")
 						{
