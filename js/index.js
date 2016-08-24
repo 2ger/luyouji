@@ -476,7 +476,7 @@ console.log('222');
 		{
 			
 			var hascom = plus.storage.getItem('hascom');//是否已评
-			console.log('获得订单用户信息');
+		//	console.log('获得订单用户信息');
 			var user_pk = plus.storage.getItem('user_pk');	
 			var url = request_url + "get_user_order_info";
 			mui.ajax(url, {
@@ -488,8 +488,8 @@ console.log('222');
 				timeout: 5000, //超时时间设置为10秒；
 				success: function(response) {	
 					if(response.Table.length>0)
-					{
-						console.log(response.Table[0].order_state);
+					{ 
+				//		console.log('订单状态: '+ response.Table[0].order_state);
 						if(response.Table[0].order_state=="0")
 						{
 							hasplay =0;
@@ -571,7 +571,7 @@ console.log('222');
 								});
 							}
 							
-							console.log("   已评ID:"+hascom+"   订单ID:"+response.Table[0].id);
+						//	console.log("   已评ID:"+hascom+"   订单ID:"+response.Table[0].id);
 							//console.log('订单状态:4  '+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
 						}else if(response.Table[0].order_state=="6")
 						{ //需用户支付 

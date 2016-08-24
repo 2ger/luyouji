@@ -50,16 +50,21 @@
 	  	  var carType = Parem[0];
 	  	  if(0 == carType)
 	  	  {
-	  	  	lb_cartype.textContent = "豪华轿车";
+	  	  	lb_cartype.textContent = "电动车";
 	  	  }
 	  	  else if(1 == carType)
 	  	  {
-	  	  	lb_cartype.textContent = "商务7座";
+	  	  	lb_cartype.textContent = "三轮车";
 	  	  }
-	  	  else
+	  	  else if(2 == carType)
 	  	  {
-	  	  	lb_cartype.textContent = "公务轿车";
+	  	  	lb_cartype.textContent = "出租车/的士";
 	  	  }
+	  	  else if(3 == carType)
+	  	  {
+	  	  	lb_cartype.textContent = "货车";
+	  	  }
+	  	  
 	  	  
 	  	  //获取车描述信息
 	  	  var lb_cardesc = document.getElementById("lb_cardesc");
@@ -72,6 +77,10 @@
 		  var order_time_price=parseFloat(Parem[6]);//时长价
 		  var car_far_away=parseFloat(Parem[7]);//远途标准
 		  var order_far_price=parseFloat(Parem[8]);//远途价
+			//		  重量 
+		  var add=parseFloat(Parem[10]);//超重多少斤
+		  var weightPerPrice=parseFloat(Parem[11]);//每斤多少元
+		  var weightPrice=parseFloat(Parem[12]);//总价格
 		  
 		  var order_away_fee=0;
 		  var order_time_fee=0;
@@ -90,14 +99,14 @@
 		  		order_away_fee=0;
 		  	}
 		  }
-		  if(strcosttime>0)  order_time_fee=strcosttime*order_time_price;//时长费
+		  if(strcosttime>0)  order_time_fee=strcosttime*order_time_price;//时长费 
 		  if(strdistance>0 && strdistance>car_far_away) order_far_away_fee=(strdistance-car_far_away)*order_far_price;//（里程-远途标准）*远途价
 		  		  
-		  var order_fee=(car_start_price+order_away_fee+order_time_fee+order_far_away_fee).toFixed(2);
-		  
+		  var order_fee=(car_start_price+order_away_fee+order_time_fee+order_far_away_fee+weightPrice).toFixed(2);
+		
 		  lb_actualprice.innerHTML ="<p>起租价 ￥" + car_start_price+"（含"+ car_meal_away.toString().replace(".00","")+"公里）</p>";
 		  lb_actualprice.innerHTML +="<p>+</p><p>里程费("+ strdistance +"*￥"+ order_away_price +"/公里)</p>"; 
-		  lb_actualprice.innerHTML +="<p>+</p><p>时长费("+ strcosttime +"*￥"+ order_time_price +"/分钟)</p>"; 
+		  lb_actualprice.innerHTML +="<p>+</p><p>超重费("+ add +"*￥"+ weightPerPrice +"/公斤)</p>"; 
 		  if(strdistance>0 && strdistance>car_far_away) lb_actualprice.innerHTML +="<p>+</p><p>远途费("+ (strdistance-car_far_away).toFixed(3) +"*￥"+ order_far_price +"/公里)("+car_far_away+"公里以上)</p>";  
 		  lb_actualprice.innerHTML +="<p>=</p><p>预估计(约)￥"+ order_fee +"</p>";  
 		  
