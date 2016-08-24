@@ -20,13 +20,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .icon-fenxiang:before { content: "\e62d"; }
-.mui-bar{ background-color:#DD524D; color: #fff; border-bottom: none; box-shadow:none;}
+.mui-bar{ background-color:#de8d1a; color: #fff; border-bottom: none; box-shadow:none;}
 header .mui-title{ color: #fff;} 
 header .mui-title>div{ width:120px ; margin: 0 auto; line-height: 40px; padding-top: 7px;}
 header .mui-title>div span{ display: block; width: 60px; height: 30px; line-height: 30px; float: left; border:solid 1px #fff;}
 header .mui-title>div span:first-child{ border-radius: 5px 0 0 5px;}
 header .mui-title>div span:last-child{ border-radius:  0 5px 5px 0;}
-header .mui-title>div span.curr{background: #fff; color: #FF0066;}
+header .mui-title>div span.curr{background: #fff; color: #de8d1a;}
 header>.my-bar-nav{padding: 5px 10px !important; text-align: center !important;}
 header>.my-bar-nav>img{ height: 20px !important;  }
 header>.my-bar-nav>span{ display: block; line-height: 10px;color: #fff; font-size: 12px;}
