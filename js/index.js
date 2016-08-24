@@ -474,6 +474,8 @@ console.log('222');
 		//获取用户订单状态
 		function get_user_order_info()
 		{
+			
+			var hascom = plus.storage.getItem('hascom');//是否已评
 			console.log('获得订单用户信息');
 			var user_pk = plus.storage.getItem('user_pk');	
 			var url = request_url + "get_user_order_info";
@@ -559,13 +561,18 @@ console.log('222');
 							document.getElementById("order_div_3").style.display="none";
 							document.getElementById("order_div_2").style.display="none";
 							document.getElementById("order_div_1").style.display="block";	
-							mui.openWindow({
-								url: "usercenter/ordermanager_detail.html",
-								extras: {
-									param: response.Table[0].order_pk
-								}
-							});				
-							console.log('订单状态:4  '+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
+							if(hascom < response.Table[0].id){
+								plus.storage.setItem('hascom',response.Table[0].id);
+								mui.openWindow({
+									url: "usercenter/ordermanager_detail.html",
+									extras: {
+										param: response.Table[0].order_pk
+									}
+								});
+							}
+							
+							console.log("   已评ID:"+hascom+"   订单ID:"+response.Table[0].id);
+							//console.log('订单状态:4  '+response.Table[0].order_pk+" 价格："+response.Table[0].order_fee);
 						}else if(response.Table[0].order_state=="6")
 						{ //需用户支付 
 							document.getElementById("order_money").value=response.Table[0].order_fee;
