@@ -149,6 +149,9 @@
 			#order_div_3>div{width:100%; text-align: center; line-height: 46px;}
 			#order_div_4>div,#order_div_5>div{width:100%; text-align: center; line-height: 20px; }
 			#order_div_5>div>botton{ line-height: 40px; padding: 6px 10px; background: #FF0066; color: #fff;border-radius: 5px; }
+			.mui-popover {
+				height: 80px;
+			}
 		</style>
 	</head>
 
@@ -206,8 +209,8 @@
 			
 			<div class=" mui-center" style="text-align:center;margin:10px;margin-top:40px">
 	
-	<a href="#"><span class="mui-icon mui-icon-location"></span>常用发货</a> | 
-	<a href="#"><span class="mui-icon mui-icon-location"></span>常用收货</a>
+	<a href="#commonfahuo"><span class="mui-icon mui-icon-location"></span>常用发货</a> | 
+	<a href="#commonshouhuo"><span class="mui-icon mui-icon-location"></span>常用收货</a>
 
 			</div>
 			<nav class="mui-bar-tab bar_transparent" id="order_div_1" style="display: block;"> 		
@@ -280,7 +283,7 @@
 			</br>
 			</br>
 		    <div id="regnow">
-		    <a href="http://www.b00d.cn/dl/reg.htm"><button class="mui-btn mui-btn-negative">
+		    <a href="http://www.b00d.cn/dl/reg.htm"><button class="mui-btn" style="background-color:#de8d1a;color:white;">
 		    注册成为送货车主 
 		</button></a>
 		    </div>
@@ -314,27 +317,75 @@
 	<div class="mui-slider">
 	  <div class="mui-slider-group mui-slider-loop">
 	    	<div class="mui-slider-item mui-slider-item-duplicate">
-	    		<a href="#"><img src="http://mytv-10005639.file.myqcloud.com/ad1.jpg" /></a></div>
+	    		<a href="http://b00d.cn/dl/jp/ad1.html"><img src="http://mytv-10005639.file.myqcloud.com/ad1.jpg" /></a></div>
 	    	<div class="mui-slider-item">
-	    		<a href="#"><img src="http://mytv-10005639.file.myqcloud.com/ad2.jpg" /></a></div>
+	    		<a href="http://b00d.cn/dl/jp/ad2.html"><img src="http://mytv-10005639.file.myqcloud.com/ad2.jpg" /></a></div>
 	    	<div class="mui-slider-item">
-	    		<a href="#"><img src="http://mytv-10005639.file.myqcloud.com/ad3.jpg" /></a></div>
+	    		<a href="http://b00d.cn/dl/jp/ad3.html"><img src="http://mytv-10005639.file.myqcloud.com/ad3.jpg" /></a></div>
 	    	<div class="mui-slider-item">
-	    		<a href="#"><img src="http://mytv-10005639.file.myqcloud.com/ad4.jpg" /></a></div>
+	    		<a href="http://b00d.cn/dl/jp/ad4.html"><img src="http://mytv-10005639.file.myqcloud.com/ad4.jpg" /></a></div>
  	    	<div class="mui-slider-item mui-slider-item-duplicate">
-	    		<a href="#"><img src="http://mytv-10005639.file.myqcloud.com/ad1.jpg" /></a></div>  
+	    		<a href="http://b00d.cn/dl/jp/ad1.html"><img src="http://mytv-10005639.file.myqcloud.com/ad1.jpg" /></a></div>  
 	  </div>
-	</div>
-
+	</div> 
 	<div id="back_current_position" style="text-align:center;margin-top:30px;">
 		<h5>Copyright <i class="fa fa-copyright"></i> 2016 易伙三商科技有限公司</h5>
 	</div>
+
+<!-- 常用地点START -->
+	<div id="commonfahuo" class="mui-popover">
+	<div class="mui-popover-arrow"></div>
+	<div class="mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul class="mui-table-view">
+				<li id="cyfh_item" class="mui-table-view-cell" onclick="cyfh3();">Item1</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+	<div id="commonshouhuo" class="mui-popover">
+	<div class="mui-popover-arrow"></div>
+	<div class="mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul class="mui-table-view">
+				<li id="cysh_item" class="mui-table-view-cell" onclick="cysh3();">Item1</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- 取出LocalStorage -->
+<script>
+	function cyfh3(){ 
+	var cyfh1 = plus.storage.getItem("startPosition");
+	var kuang1 = document.getElementById('start_address').value= cyfh1;
+}
+	function cysh3() {
+		var cysh1 = plus.storage.getItem("endPosition");
+		var kuang2 = document.getElementById('end_address').value= cysh1;
+}
+</script>
+<!-- 常用地点END -->
 <script src="js/index.js"></script>
-<script src="js/mui.min.js"></script>
+		<!-- 广告JS -->
 <script>
 	var gallery = mui('.mui-slider');
 	gallery.slider({
 	  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+	});
+</script>
+		<!-- 常用地点JS -->
+<script>
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	});
+	mui('.mui-scroll-wrapper').scroll();
+	mui('body').on('shown', '.mui-popover', function(e) {
+		//console.log('shown', e.detail.id);//detail为当前popover元素
+	});
+	mui('body').on('hidden', '.mui-popover', function(e) {
+		//console.log('hidden', e.detail.id);//detail为当前popover元素
 	});
 </script>
 	</body>

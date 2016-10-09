@@ -14,6 +14,7 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/mui.listpicker.css" rel="stylesheet" />
 		<link href="css/mui.dtpicker.css" rel="stylesheet" />
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
 		<style>
 		.mui-table-view-cell::after{width:91%;}
 		.mui-table-view-cell > a:not(.mui-btn){margin: -11px -19px;}
@@ -115,17 +116,15 @@
 				</div>
 			</div>
 				<!--重量-->
-			<div class="div_padding" > 
+				<div class="div_padding" > 
 				<span style="font-size: 16px;">货物重量</span>
 				<div class="mui-table-view mui-table-view-chevron" style="border-top:1px solid #eee;padding-top: 5px;">
-					<table>
+ 					<table>
 					<tr>
 						<td width="100%" align="right" valign="middle">
-							<button type="button" class="mui-btn mui-btn-primary" onclick="lose_weight()" >-</button> 
-							
-						<input type="text" id="weight" style="width: 50%;text-align: center;height:33px;line-height:33px;" placeholder="重量"> 
-							
-							<button type="button" class="mui-btn mui-btn-positive" onclick="add_weight()">+</button>
+							<button type="button" class="mui-btn mui-btn-primary" onclick="lose_weight()" >－</button>
+						<input type="text" id="weight" style="width: 50%;text-align: center;height:33px;line-height:33px;" placeholder="重量" maxlength="8" onchange="duli()"> 
+							<button type="button" class="mui-btn mui-btn-positive" onclick="add_weight()">＋</button>
 						公斤
 						</td>
 					</tr>
@@ -201,7 +200,7 @@
 				<ul class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-cell">
 						<a id="price_detail" class="mui-navigate-right" open-type="common" >
-							<span class="mui-media-object">预估价</span>
+							<span class="mui-media-object">预估价: </span>
 							<span id="package_price" clsss="mui-media-object" style="color: #FF0066; font-size: 18px;"></span>
 						</a>
 						<button id="confirm_oper" class="mui-btn">提交订单</button>

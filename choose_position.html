@@ -219,10 +219,12 @@ console.log(addComp.province);
 					myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
 					G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 					setPlace();
+					// 存入LocalStorage
 							plus.storage.setItem('province1',_value.province);
 							plus.storage.setItem('city1',_value.city);
 							plus.storage.setItem('district1',_value.district);
 							console.log(JSON.stringify(_value));
+							plus.storage.setItem('startPosition',myValue);
 					
 				});
 				var strlat = "";

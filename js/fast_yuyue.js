@@ -70,8 +70,17 @@
 			/*获取上下车地址*/
 			var startPosition = document.getElementById("startPosition");
 			var endPosition = document.getElementById("endPosition");
+			plus.storage.setItem('startPosition',startPosition.value);
+			plus.storage.setItem('endPosition',endPosition.value);
 			var start_postion = plus.storage.getItem("start_postion");
 			var end_postion = plus.storage.getItem("end_postion");
+			// 常用地点START
+				// var cyfh1 = 
+				// var cyfh2 = plus.storage.getItem("start_postion");
+				// document.getElementById('cyfh_item').val= cyfh2;
+
+
+			// 常用地点END
 			
 			/*收货人信息*/
 			var receiveMan = document.getElementById("receiveMan");
@@ -119,8 +128,7 @@
 			confirm_data();
 		});
 		var car_pk = 0;
-		var weight = document.getElementById("weight");
-		
+		var weight = document.getElementById("weight");		
 		var startWeight = 5 ;
 		var weightPrice =0;//总超 重量价格
 		var add =0;
@@ -133,14 +141,14 @@
 				weightPrice = add*weightPerPrice;
 			}
 			far_costmoney(carType);
-			console.log(weightPrice); 
+			console.log(weightPrice);
 		}
 		function lose_weight(){
 			var nowWeight = parseInt(weight.value)-1;
 			if(nowWeight < 1){ 
 				nowWeight = 1;
 			}
-			weight.value = nowWeight;
+			weight.value = nowWeight;			
 			add = nowWeight - startWeight;
 			if(add >1){
 				weightPrice = add*weightPerPrice;
@@ -148,7 +156,33 @@
 			far_costmoney(carType);
 			console.log(weightPrice);
 		}
-		
+		/* 输入数字计算 */
+		function duli(){
+			var nowWeight = parseInt(weight.value);
+			add = nowWeight - startWeight;
+			if(add >1){
+				weightPrice = add*weightPerPrice;
+			}
+			far_costmoney(carType);
+			console.log(weightPrice);
+		}
+
+		/* input_weight 
+        function weight(obj) {
+            var a = document.getElementById("weight");
+            var nowWeight = parseInt(weight.value);
+			weight.value = nowWeight;
+			add = nowWeight - startWeight;
+			if(add >1){
+				weightPrice = add*weightPerPrice;
+
+
+            if(a.value === "" || b.value === "") {
+                return;
+            } 
+            s.value = parseInt(a.value) * parseInt(b.value);
+        }*/
+
 		/* 判断选择车型 */
 		function choose_carType() {
 			//获得 单选选按钮name集合   
@@ -423,6 +457,12 @@ console.log("carType:"+carType);
 							console.log(JSON.stringify(response));
 							console.log(response.result);
 							//mui.back();
+					//个推 START
+					mui.ajax('http://wqq2.xyj0772.com/luyouji/demo.php',{
+						type: 'post',
+						timeout: 5
+					});
+					// END
 							mui.openWindow({
 								id: response.result,
 								url: "usercenter/ordermanager.html"

@@ -145,9 +145,15 @@ console.log('222');
 		var tj=false;
 		// var g_getinfo    = "";		
 		mui.plusReady(function() {		
+			// 常用地点注入
+				var cyfh2 = plus.storage.getItem("startPosition");
+				document.getElementById('cyfh_item').innerHTML= cyfh2;
+				var cysh2 = plus.storage.getItem("endPosition");
+				document.getElementById('cysh_item').innerHTML= cysh2;
 			//获得用户订单信息
 			get_user_order_info();	
-			
+				
+
 			if(parseFloat(plus.storage.getItem('islogin') || 0)!=1)
 			{
 				mui.openWindow({

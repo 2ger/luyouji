@@ -12,7 +12,8 @@
       "css/iconfont.css",
       "css/mui.min.css",
       "img/send.png",
-      "js/index.js"
+      "js/index.js",
+      "img/iconfont-chongzhi(2).png"
     ],
     "refer": [
       "login/login.html",
@@ -41,11 +42,18 @@
       "usercenter/modify_phone.html",
       "helpcenter/operation.html"
     ],
-    "refer": []
+    "refer": [
+      "usercenter/recharge.html",
+      "usercenter/modify_phone.html"
+    ]
   },
   "usercenter/recharge.html": {
     "resources": [
-      "setting_menu.html"
+      "setting_menu.html",
+      "js/request_url.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
     ],
     "refer": [
       "setting_menu.html"
@@ -124,7 +132,9 @@
       "js/mui.dtpicker.js"
     ],
     "refer": [
-      "usercenter/ordermanager.html"
+      "usercenter/ordermanager.html",
+      "choose_endposition.html",
+      "pricedetail.html"
     ]
   },
   "usercenter/ordermanager_detail.html": {
@@ -133,9 +143,18 @@
       "img/freeride.png",
       "img/star_icon@2x_11.jpg",
       "js/common.js",
-      "img/chat_icon@2x_10.png"
+      "img/chat_icon@2x_10.png",
+      "img/star_icon@2x_22.png",
+      "img/star_icon@2x_12.jpg",
+      "img/star_icon@2x_15.jpg",
+      "js/request_url.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
     ],
-    "refer": []
+    "refer": [
+      "usercenter/coach_info.html"
+    ]
   },
   "usercenter/purse.html": {
     "resources": [
@@ -157,10 +176,37 @@
   },
   "usercenter/modify_phone.html": {
     "resources": [
-      "setting_menu.html"
+      "setting_menu.html",
+      "js/request_url.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
     ],
     "refer": [
       "setting_menu.html"
     ]
+  },
+  "login/login.html": {
+    "resources": [
+      "js/request_url.js",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "index.html": {
+    "refer": [
+      "setting_menu.html"
+    ],
+    "resources": []
+  },
+  "pricedetail.html": {
+    "resources": [
+      "img/iconfont-yue.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": []
   }
 }
