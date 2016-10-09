@@ -561,7 +561,7 @@ console.log('222');
 						else if(response.Table[0].order_state=="4") // && tj
 						{
 							tj=false;
-							
+							has_unpay_ed();// 隐藏支付窗口，防止网速慢，在此处再次关闭
 							document.getElementById("order_div_5").style.display="none";
 							document.getElementById("order_div_4").style.display="none";
 							document.getElementById("order_div_3").style.display="none";
