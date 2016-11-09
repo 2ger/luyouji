@@ -807,8 +807,8 @@ console.log('222');
 						//pay(ids[0], order_pk);
 						break;
 					case 2:
-						pay(ids[1], order_pk);
-						break;
+						pay(ids[0], order_pk);
+						break; 
 				}
 			});
 					
@@ -908,6 +908,8 @@ console.log('222');
 			}
 		
 		function pay(id, order_pk) {
+			
+			console.log(id);
 			var user_pk = plus.storage.getItem('user_pk');
 			var PAYSERVER = request_url + "get_wx_pay_info&order_state=6&user_pk="+user_pk+"&order_pk=" + order_pk + "&rechange_money=" + document.getElementById("order_money").value +"&payid=";
 			if (w) {

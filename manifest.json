@@ -3,10 +3,10 @@
 		"android",
 		"iPhone", 
 		"iPad"],
-	"id": "luyouji",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"id": "com.yhss.luyouji",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "路邮寄",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.1.4",/*应用版本名称*/
+		"name": "1.1.6",/*应用版本名称*/
 		"code": "84"
 	},
 	"description": "",/*应用描述信息*/
@@ -253,30 +253,30 @@
 			"splashscreen": {
 				"ios": {
 					"iphone": {
-						"default": "D:/app/启动画面/客户.png", /*iPhone3启动图片选，分辨率：320x480*/
-						"retina35": "D:/app/启动画面/客户.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "D:/app/启动画面/客户.png",
-						"retina55": "D:/app/启动画面/客户.png",
-						"retina47": "D:/app/启动画面/客户.png",
-						"retina55l": "D:/app/启动画面/客户.png"
+						"default": "img/kh.png", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "img/kh.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "img/kh.png",
+						"retina55": "img/kh.png",
+						"retina47": "img/kh.png",
+						"retina55l": "img/kh.png"
 					},
 					"ipad": {
-						"portrait": "D:/app/启动画面/客户.png", /*iPad竖屏启动图片，分辨率：768x1004*/
-						"portrait-retina": "D:/app/启动画面/客户.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
-						"landscape": "D:/app/启动画面/客户.png", /*iPad横屏启动图片，分辨率：1024x748*/
-						"landscape-retina": "D:/app/启动画面/客户.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
-						"portrait7": "D:/app/启动画面/客户.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
-						"portrait-retina7": "D:/app/启动画面/客户.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
-						"landscape7": "D:/app/启动画面/客户.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-						"landscape-retina7": "D:/app/启动画面/客户.png"
+						"portrait": "img/kh.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "img/kh.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "img/kh.png", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "img/kh.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "img/kh.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "img/kh.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "img/kh.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": "img/kh.png"
 					}
 				},
 				"android": {
-					"hdpi": "D:/app/启动画面/客户.png",
-					"ldpi": "D:/app/启动画面/客户.png",
-					"mdpi": "D:/app/启动画面/客户.png",
-					"xhdpi": "D:/app/启动画面/客户.png",
-					"xxhdpi": "D:/app/启动画面/客户.png"
+					"hdpi": "img/kh.png",
+					"ldpi": "img/kh.png",
+					"mdpi": "img/kh.png",
+					"xhdpi": "img/kh.png",
+					"xxhdpi": "img/kh.png"
 				}
 			},"debug":true
 		}
